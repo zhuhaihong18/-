@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/index1.css">
+  <link rel="stylesheet" href="css/index2.css">
+  <link rel="stylesheet" href="css/banner1.css">
+  <link rel="stylesheet" href="css/component.css">
+  <script src="js/jquery-1.11.3.js"></script>
+  <title>Document</title>
+  <script type="text/javascript">
+    $(function(){
+      $.ajax({
+        // type:"get",
+        url:"data/goods.json",
+        success:function(arr){
+
+          // 通过newArr处理数据，将数据添加到页面上
+          var strS = ``;
+          for(var i = 0;i < arr.length;i++){
+            strS += `
+            <li class="ta-ct scale-box wd-25p fl" >
+            <div class="mouseenter mouseleave mg-4 bc-f">
+              <div class="oh scale pd-30 pr">
+                <a href="ban1detail1.html?id=${arr[i].id}" class="db square-box one-one bgimg lazyload visible" style="background-image: url(${arr[i].imgUrl});"></a>
+              </div>
+              <div class="context pd-0020">
+                <a href="ban1detail1.html?id=${arr[i].id}" class="db cl-6 lh-25 ht-50 oh mt-5" target="_blank">${arr[i].title}</a>
+                <div class="lh-40">
+                  <span class="fs-16 cl-rd-l">${arr[i].price}</span>
+                  <span class="cl-9">|</span>
+                  <del class="fs-12 cl-9">${arr[i].del}</del>
+                </div>
+              </div>
+            </div>
+          </li>
+            `
+            console.log(strS)
+          }
+         
+          $("#ul").html(strS);
+        },error:function(msg){
+         console.log(msg);
+        }
+      })
+    })
+  </script>
+</head>
+<body>
+  <!-- 头部 -->
+  <div class="header bc-f">
+    <div class="bc-f5 ht-30 lh-30">
+      <div class="wd-1200 ma fs-12 cl-6">
+        <p class="fl">
+          <a href="http://localhost/dist/login.html" class="hover cl-6" target="_blank" title="登录">登录</a>
+          <span class="pd-0005 cl-c">|</span>
+          <a href="http://localhost/dist/register.html" class="mr-30 hover cl-6" target="_blank" title="免费注册">免费注册</a>
+          <a href="" class="hover cl-6" target="_blank" title="下载博库APP">
+            <span class="icon-phone-line cl-bl-l fs-16 tp-3 mr-2 pr"></span><img src="images/phone.png" alt="" id="phone"></span>
+            下载博库APP
+          </a>
+        </p>
+        <p class="fr">
+          <a href="" class="hover fr cl-6" title="联系客服">联系客服</a>
+          <span class="pd-0015 cl-c fr">|</span>
+          <a href="" class="hover fr cl-6" target="_blank" title="店铺管理">店铺管理</a>
+          <span class="pd-0015 cl-c fr">|</span>
+          <a href="" class="hover fr cl-6" target="_blank" title="收藏夹">收藏夹</a>
+          <span class="pd-0015 cl-c fr">|</span>
+        
+        <div class="fr mouseenter-box mouseenter mouseleave pr" id="pr">
+          <label for="" class="cp">
+            我的博库
+            <img src="images/darrow.png" alt="" id="darrow">
+          </label>
+          <div class="acount" id="acount">
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的博库</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的订单</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的优惠券</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的收藏</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的收入</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">官方消息</a>
+          </div>
+        </div>
+        <div class="cb"></div>
+      </p>
+      </div>
+    </div>
+    <!-- logo+搜索+购物车 -->
+    <div class="wd-1200 ma">
+      <div class="search-container" id="search-container">
+        <div class="logo-container">
+          <a href="index.html" class="db logo-box fl">
+            <img src="images/logo.png" alt="logo"  draggable="false" width="220" id="logo">
+          </a>
+          <!-- 搜索 -->
+          <div class="f1">
+            <div class="search-box">
+              <div class="fl wd-480 pr zi-1 associate-container">
+                <input type="text" id="gudingsearch" placeholder="快乐读书吧" class="bd-n searchkey">
+              </div>
+              <p class="fr icon-search-line cl-f fs-27 tosearch"><img src="images/magnifying.png" alt="" width="25" height="25" style="vertical-align: middle;"></p>
+              <div class="cb"></div>
+            </div>
+            <img src="" alt="">
+            <p class="fs-12 lh-25  tip">
+              <a href="" target="_blank" class="cl-rd-l" title="红星照耀中国" style="color: red;">红星照耀中国</a>
+              <span class="cl-9 pd-0005">|</span>
+              <a href="" target="_blank" class="cl-9" title="三体">三体</a>
+              <span class="cl-9 pd-0005">|</span>
+              <a href="" target="_blank" class="cl-9" title="新课标">新课标</a>
+              <span class="cl-9 pd-0005">|</span>
+              <a href="" target="_blank" class="cl-9" title="冬之旅">冬之旅</a>
+              <span class="cl-9 pd-0005">|</span>
+              <a href="" target="_blank" class="cl-9" title="水浒传">水浒传</a>
+            </p>
+            <div class="cb"></div>
+          </div>
+          <div class="fr ta-rt mt-8 cart">
+            <a href="cart.html" target="_blank" class="fs-16 bd-1-d br-4 pd-0610 cart-box">
+              <span class="icon-cart-block mr-10 cl-a9 pr tp-3 fs-18">
+                <img src="images/shopping.png" alt="" id="shopping">
+              </span>
+              <span class="mr-5">购物车</span>
+            </a>
+          </div>
+          <div class="cb"></div>
+        </div>
+      </div>
+      <!-- 分类 -->
+      <div class="nav-box">
+        <div class="type fl public">
+          <a href="" target="_blank" class="db cl-f title" style="color: #fff;">
+            <span class="icon-type-line cl-f mr-10 pr tp-2"><img src="images/list.png" alt="" id="list"></span>
+            所有商品分类
+          </a>
+        </div>
+        <div class="nav fl">
+          <!-- 固定导航菜单 -->
+          <a target="_blank" class="db pd-0015 fl on-mouse" href=""><span>首页</span></a>
+          <a target="_blank" class="db pd-0015 fl " href=""><span>新品</span></a>
+          <a target="_blank" class="db pd-0015 fl " href=""><span>限时购</span></a>
+          <a target="_blank" class="db pd-0015 fl " href=""><span>排行榜</span></a>
+          <!-- 自定义导航菜单 -->
+          <span class="db pd-0015 fl">|</span>
+          <a href="" target="_blank" class="db pd-0015 fl"><span>图书馆</span></a>
+        </div>
+        <div class="cb"></div>
+      </div>
+    </div>
+  </div>
+  <!-- 中部 -->
+  <!-- 专题页 页面内容 -->
+  <div class="section" style="background-color: #c80c0d;">
+    <div class="wd-1920 ma" style="position: relative;left: 50%;margin-left: -960px;">
+      <img src="images/banner1.jpg" width="100%" class="db visible" alt="">
+    </div>
+    <!-- 模块内容详情 -->
+    <div class="wd-1200 ma" style="background-color: #c80c0d">
+      <div class="my_module" id="8149" data-template-id="62" module-id="8149" module-type="1">
+        <div>
+          <table width="100%">
+            <tbody>
+              <tr>
+                <td>
+                  <img src="images/20200709184806588.jpg" class="db visible" alt="">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="my_module my_tab_content "  id="my_tab_8147" data-template-id="45" module-id="8147" module-type="3">
+        <ul class="mouseenter-box channel mb-20" id="ul">
+          <!-- <li class="ta-ct scale-box wd-25p fl">
+            <div class="mouseenter mouseleave mg-4 bc-f">
+              <div class="oh scale pd-30 pr">
+                <a href="ban1detail1.html" class="db square-box one-one bgimg lazyload visible" style="background-image: url(images/20200701A112523-50024.jpg);"></a>
+              </div>
+              <div class="context pd-0020">
+                <a href="ban1detail1.html" class="db cl-6 lh-25 ht-50 oh mt-5" target="_blank">习近平谈治国理政(第3卷)</a>
+                <div class="lh-40">
+                  <span class="fs-16 cl-rd-l">¥64.00</span>
+                  <span class="cl-9">|</span>
+                  <del class="fs-12 cl-9">¥80.00</del>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="ta-ct scale-box wd-25p fl">
+            <div class="mouseenter mouseleave mg-4 bc-f">
+              <div class="oh scale pd-30 pr">
+                <a href="" class="db square-box one-one bgimg lazyload visible" style="background-image: url(images/2020070530910077-1.jpg);"></a>
+              </div>
+              <div class="context pd-0020">
+                <a href="" class="db cl-6 lh-25 ht-50 oh mt-5" target="_blank">习近平谈治国理政(第3卷)(英文版)</a>
+                <div class="lh-40">
+                  <span class="fs-16 cl-rd-l">¥64.00</span>
+                  <span class="cl-9">|</span>
+                  <del class="fs-12 cl-9">¥80.00</del>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="ta-ct scale-box wd-25p fl">
+            <div class="mouseenter mouseleave mg-4 bc-f">
+              <div class="oh scale pd-30 pr">
+                <a href="" class="db square-box one-one bgimg lazyload visible" style="background-image: url(images/2018062630148054-1.jpg);"></a>
+              </div>
+              <div class="context pd-0020">
+                <a href="" class="db cl-6 lh-25 ht-50 oh mt-5" target="_blank">习近平谈治国理政(第2卷)(精)</a>
+                <div class="lh-40">
+                  <span class="fs-16 cl-rd-l">¥94.80</span>
+                  <span class="cl-9">|</span>
+                  <del class="fs-12 cl-9">¥120.00</del>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="ta-ct scale-box wd-25p fl">
+            <div class="mouseenter mouseleave mg-4 bc-f">
+              <div class="oh scale pd-30 pr">
+                <a href="" class="db square-box one-one bgimg lazyload visible" style="background-image: url(images/A106316.jpg);"></a>
+              </div>
+              <div class="context pd-0020">
+                <a href="" class="db cl-6 lh-25 ht-50 oh mt-5" target="_blank">习近平谈治国理政(第2卷英文版)(精)</a>
+                <div class="lh-40">
+                  <span class="fs-16 cl-rd-l">¥85.20</span>
+                  <span class="cl-9">|</span>
+                  <del class="fs-12 cl-9">¥120.00</del>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="ta-ct scale-box wd-25p fl">
+            <div class="mouseenter mouseleave mg-4 bc-f">
+              <div class="oh scale pd-30 pr">
+                <a href="" class="db square-box one-one bgimg lazyload visible" style="background-image: url(images/201808284242991-fm.jpg);"></a>
+              </div>
+              <div class="context pd-0020">
+                <a href="" class="db cl-6 lh-25 ht-50 oh mt-5" target="_blank">习近平谈治国理政(第1卷繁体版)(精)</a>
+                <div class="lh-40">
+                  <span class="fs-16 cl-rd-l">¥87.60</span>
+                  <span class="cl-9">|</span>
+                  <del class="fs-12 cl-9">¥120.00</del>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="ta-ct scale-box wd-25p fl">
+            <div class="mouseenter mouseleave mg-4 bc-f">
+              <div class="oh scale pd-30 pr">
+                <a href="" class="db square-box one-one bgimg lazyload visible" style="background-image: url(images/2018070330142750-1.jpg);"></a>
+              </div>
+              <div class="context pd-0020">
+                <a href="" class="db cl-6 lh-25 ht-50 oh mt-5" target="_blank">习近平谈治国理政(第1卷英文版)(精)</a>
+                <div class="lh-40">
+                  <span class="fs-16 cl-rd-l">¥87.60</span>
+                  <span class="cl-9">|</span>
+                  <del class="fs-12 cl-9">¥120.00</del>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="ta-ct scale-box wd-25p fl">
+            <div class="mouseenter mouseleave mg-4 bc-f">
+              <div class="oh scale pd-30 pr">
+                <a href="" class="db square-box one-one bgimg lazyload visible" style="background-image: url(images/2020072530924303-1.jpg);"></a>
+              </div>
+              <div class="context pd-0020">
+                <a href="" class="db cl-6 lh-25 ht-50 oh mt-5" target="_blank">习近平在福州</a>
+                <div class="lh-40">
+                  <span class="fs-16 cl-rd-l">¥53.96</span>
+                  <span class="cl-9">|</span>
+                  <del class="fs-12 cl-9">¥76.00</del>
+                </div>
+              </div>
+            </div>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- 底部 -->
+  <div class="footer">
+    <div class="tag">
+      <ul class="clearfix" >
+        <li class="cl-4 lh-25 pd-0500 wd-25p fl">
+          <img src="images/zheng.png" width="50" height="50" class="fl mr-10 defaultlazy" alt="">
+          <div class="fl" style="margin-top: -7px;">
+            <p class="fs-24 ">全场正品</p>
+            <p style="width: 130px; height: 25px;">出版社直采·博库正品</p>
+          </div>
+        </li>
+        <li class="cl-4 lh-25 pd-0500 wd-25p fl">
+          <img src="images/sheng.png" width="50" height="50" class="fl mr-10 defaultlazy" alt="">
+          <div class="fl" style="margin-top: -7px;">
+            <p class="fs-24 ">全场满59包邮</p>
+            <p style="width: 130px; height: 25px;">惊喜不断·让利多多</p>
+          </div>
+        </li>
+        <li class="cl-4 lh-25 pd-0500 wd-25p fl">
+          <img src="images/huo.png" width="50" height="50" class="fl mr-10 defaultlazy" alt="">
+          <div class="fl" style="margin-top: -7px;">
+            <p class="fs-24 ">门店自取</p>
+            <p style="width: 130px; height: 25px;">就近取货·方式灵活</p>
+          </div>
+        </li>
+        <li class="cl-4 lh-25 pd-0500 wd-25p fl">
+          <img src="images/you.png" width="50" height="50" class="fl mr-10 defaultlazy" alt="">
+          <div class="fl" style="margin-top: -7px;">
+            <p class="fs-24 ">售后无忧</p>
+            <p style="width: 130px; height: 25px;">服务体验·更加精彩</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="wd-1200 ma pd-2000 clearfix" style="border-bottom: 1px solid #b3afaf;">
+      <ul class="links-box fl clearfix">
+        <li class="lh-30 wd-20p fl" style="width: 169px;">
+          <span class="db fs-16 lh-40 ">新手指南</span>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">新用户注册</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">购物流程</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">积分制度</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">注册开店</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">激励制度</a>
+          </div>
+        </li>
+        <li class="lh-30 wd-20p fl" style="width: 169px;">
+          <span class="db fs-16 lh-40 ">支付与配送</span>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">IC卡充值说明</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">验货与签收</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">配送范围</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">自行取货</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">支付方式</a>
+          </div>
+        </li>
+        <li class="lh-30 wd-20p fl" style="width: 169px;">
+          <span class="db fs-16 lh-40 ">售后服务</span>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">发票制度</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">退换货流程</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">7天无理由退换货</a>
+          </div>
+        </li>
+        <li class="lh-30 wd-20p fl" style="width: 169px;">
+          <span class="db fs-16 lh-40 ">个人中心</span>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">店铺设置</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">团队管理</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">收入管理</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">我的订单</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">我的优惠券</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">我的等级</a>
+          </div>
+        </li>
+        <li class="lh-30 wd-20p fl" style="width: 169px;">
+          <span class="db fs-16 lh-40 ">了解博库</span>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">关于博库</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">联系我们</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">博库网隐私政策</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">博库用户注册协议</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">博库网分销商注册协议</a>
+          </div>
+        </li>
+      </ul>
+      <div class="code-box fr">
+        <ul class="clearfix">
+          <li class="cl-6 lh-30 ta-ct wd-50p fl" style="width: 159px;">
+            <p class="fs-16 lh-40 ">手机博库</p>
+            <img src="images/app.jpg" width="105" height="105" class="db bd-1-d ma visible" alt="">
+            <p class="lh-30">下载手机客户端</p>
+          </li>
+          <li class="cl-6 lh-30 ta-ct wd-50p fl" style="width: 159px;">
+            <p class="fs-16 lh-40 ">关注微信</p>
+            <img src="images/wx.jpg" width="105" height="105" class="db bd-1-d ma visible" alt="">
+            <p class="lh-30">关注官方微信</p>
+          </li>
+        </ul>
+        <div class="cl-6 lh-25 mt-15" style="position: relative;">
+          <p class="fs-16 fw-bd" style="height: 25px;margin-top: 110px;padding-left: 20px; position: absolute;">服务热线&nbsp;0571-26306883</p>
+          <p style="height: 25px;position: absolute;margin-top: 140px;padding-left: 20px;">服务时间&nbsp;工作日9:00-21:00</p>
+        </div>
+      </div>
+    </div>
+    <!-- copyright -->
+    <div class="copyright">
+      <div class="wd-605 ma cl-9 ta-ct" style="width: 700px;">
+        <div class="fl lh-50">
+          <img src="images/jingcha.png" height="36" class="va-md pd-0005 defaultlazy" alt="">
+          <a href="" target="_blank">
+            <img src="images/huizhang.png" height="36" class="va-md pd-0005 defaultlazy" alt="">
+          </a>
+        </div>
+        <div class="fl pd-0010" style="height: 60px;">
+          <p style="height: 20.67px;color: #999;">
+            ©Copyright 2005-2020 <a href="" class="copyRightA" target="_blank">网站备案号：浙B2-20110278-1</a>
+          </p>
+          <p style="height: 20.67px;color: #999;">
+            <a href="" class="copyRightA" target="_blank">增值电信业务经营许可证:浙B2-2011021</a>
+            bookuu.com 版权所有
+          </p>
+        </div>
+        <div class="fl lh-50">
+          <a href="" target="_blank"><img src="images/knetSealLogo.png" height="30" class="va-md pd-0005 defaultlazy" alt=""></a>
+          <a href="" target="_blank"><img src="images/cert.png" height="30" class="va-md pd-0005 defaultlazy" alt=""></a>
+        </div>
+        <div class="cb"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

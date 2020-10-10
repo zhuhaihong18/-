@@ -1,0 +1,130 @@
+html, body {
+  height: 100%; }
+
+body {
+  overflow: scroll;
+  overflow-x: hidden; }
+
+.header-simple {
+  padding: 35px 0px 34px;
+  background-color: #fff;
+  border-bottom: 1px solid #cccccc; }
+
+.login-banner-wrap {
+  height: 600px;
+  background: url(../images/banner.png) no-repeat center; }
+
+.content {
+  width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box; }
+
+.login-form {
+  width: 380px;
+  padding: 19px;
+  margin-top: 75px;
+  line-height: 2;
+  border: 1px solid #e8e8e8;
+  background-color: #fff; }
+
+.login-form .item {
+  border: 1px solid #e8e8e8;
+  line-height: 40px;
+  border-radius: 4px; }
+
+.login-user {
+  width: 57px;
+  line-height: 38px;
+  font-size: 20px;
+  background-color: #e4e4e4; }
+
+.login-user img {
+  width: 20px;
+  height: 20px; }
+
+.login-form input[name=user-name], .login-form input[name=user-password] {
+  width: 309px;
+  border: none; }
+
+.login-form input {
+  height: 30px;
+  line-height: 28px;
+  padding: 4px 6px; }
+
+.login-form input[name=user-passport] {
+  width: 150px;
+  border: 1px solid #e8e8e8; }
+
+.login-btn {
+  width: 380px;
+  display: inline-block;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px #2db4ea solid;
+  background-color: #2db4ea; }
+
+.footer {
+  border-top: 1px solid #b3afaf;
+  background-color: #fff;
+  width: 1264px;
+  height: 474px;
+  position: absolute;
+  left: 0; }
+
+.footer .tag {
+  width: 1264px;
+  height: 101px;
+  padding: 20px;
+  height: 60px;
+  border-bottom: 1px solid #b3afaf; }
+
+.footer .links-box {
+  position: relative;
+  width: 850px; }
+
+ul.clearfix {
+  width: 1200px;
+  height: 60px; }
+
+.footer .tag ul {
+  padding: 0 50px;
+  width: 1100px;
+  margin: 0 auto; }
+
+li.cl-4.lh-25.pd-0500.wd-25p.fl {
+  width: 275px;
+  height: 60px; }
+
+p.fs-24 {
+  vertical-align: middle;
+  width: 150px;
+  height: 25px; }
+
+div.wd-1200.ma.pd-2000.clearfix {
+  width: 1200px;
+  height: 282px; }
+
+ul.links-box {
+  position: relative;
+  width: 850px; }
+
+ul.links-box.fl.clearfix {
+  width: 850px;
+  height: 220px; }
+
+div.code-box {
+  width: 260px;
+  padding: 0 34px 0 56px; }
+
+.footer .copyright {
+  height: 50px;
+  padding: 20px 0;
+  background-color: #414141; }
+
+.copyRightA, a.copyRightA {
+  color: #999;
+  cursor: pointer; }
+
+.copyRightA:hover {
+  color: #fff; }

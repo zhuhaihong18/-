@@ -1,0 +1,2082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/index1.css">
+  <link rel="stylesheet" href="css/index2.css">
+  <link rel="stylesheet" href="css/index3.css">
+  <script src="js/startMove.js"></script>
+  <script>
+    window.onload = function () {
+        const oBanner = document.querySelector(".banner");
+        const oUl = document.querySelector(".banner .imgBox");
+        const aBtns = document.querySelectorAll(".banner .pointBox li");
+        const LeftANDRightBtn = document.querySelectorAll(".leftRightTabs a");
+        let iNow = 1; //代表当前显示的图片的下标
+        let timer = null;
+        let isRunning = false; //代表当前动画是否在执行。
+
+        //一开始就要调用一次
+        timerInner();
+
+        //点击按钮的时候，进行小圆点切换和轮播图的切换
+        for (var i = 0; i < aBtns.length; i++) {
+          aBtns[i].index = i;
+          aBtns[i].onclick = function () {
+            iNow = this.index + 1;
+            tab();
+          };
+        }
+
+        //自动轮播
+        function timerInner() {
+          timer = setInterval(function () {
+            iNow++;
+            tab();
+          }, 5000);
+        }
+
+        //实现轮播效果
+        function tab() {
+
+          console.log(iNow);
+          for (var i = 0; i < aBtns.length; i++) {
+            aBtns[i].className = "";
+          }
+          if (iNow == aBtns.length + 1) {
+            aBtns[0].className = "active";
+          } else if (iNow == 0) {
+            aBtns[aBtns.length - 1].className = "active";
+          } else {
+            aBtns[iNow - 1].className = "active";
+          }
+
+          //开始动画
+          isRunning = true;
+          startMove(oUl, { left: iNow * -1263 }, function () {
+            //判断最后一张图片结束的时候
+            if (iNow == aBtns.length + 1) {
+              iNow = 1;
+              oUl.style.left = "-1263px";
+
+              //判断第一张图片的时候
+            } else if (iNow == 0) {
+              iNow = 6;
+              oUl.style.left = iNow * -1263 + "px";
+            }
+            //这里动画结束
+            isRunning = false;
+          });
+        }
+
+        //给banner添加鼠标的移入和移出
+        oBanner.onmouseenter = function () {
+          clearInterval(timer);
+        };
+        oBanner.onmouseleave = function () {
+          //重新启动动画
+          timerInner();
+        };
+
+        //添加左右按钮的点击
+        LeftANDRightBtn[0].onclick = function () {
+          if (!isRunning) {
+            iNow--;
+            tab();
+          }
+          return false;
+        };
+
+        LeftANDRightBtn[1].onclick = function () {
+          if (!isRunning) {
+            iNow++;
+            tab();
+          }
+          return false;
+        };
+
+        //【注】这里的防抖时间，要大于动画的执行时间。
+      };
+  </script>
+  <title>博库网</title>
+</head>
+<body>
+  <!-- 头部 -->
+  <div class="header bc-f">
+    <div class="bc-f5 ht-30 lh-30">
+      <div class="wd-1200 ma fs-12 cl-6">
+        <p class="fl">
+          <a href="http://localhost/dist/login.html" class="hover cl-6" target="_blank" title="登录">登录</a>
+          <span class="pd-0005 cl-c">|</span>
+          <a href="http://localhost/dist/register.html" class="mr-30 hover cl-6" target="_blank" title="免费注册">免费注册</a>
+          <a href="" class="hover cl-6" target="_blank" title="下载博库APP">
+            <span class="icon-phone-line cl-bl-l fs-16 tp-3 mr-2 pr"></span><img src="images/phone.png" alt="" id="phone"></span>
+            下载博库APP
+          </a>
+        </p>
+        <p class="fr">
+          <a href="" class="hover fr cl-6" title="联系客服">联系客服</a>
+          <span class="pd-0015 cl-c fr">|</span>
+          <a href="" class="hover fr cl-6" target="_blank" title="店铺管理">店铺管理</a>
+          <span class="pd-0015 cl-c fr">|</span>
+          <a href="" class="hover fr cl-6" target="_blank" title="收藏夹">收藏夹</a>
+          <span class="pd-0015 cl-c fr">|</span>
+        
+        <div class="fr mouseenter-box mouseenter mouseleave pr" id="pr">
+          <label for="" class="cp">
+            我的博库
+            <img src="images/darrow.png" alt="" id="darrow">
+          </label>
+          <div class="acount" id="acount">
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的博库</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的订单</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的优惠券</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的收藏</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的收入</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">官方消息</a>
+          </div>
+        </div>
+        <div class="cb"></div>
+      </p>
+      </div>
+    </div>
+    <!-- logo+搜索+购物车 -->
+    <div class="wd-1200 ma">
+      <div class="search-container" id="search-container">
+        <div class="logo-container">
+          <a href="" class="db logo-box fl">
+            <img src="images/logo.png" alt="logo"  draggable="false" width="220" id="logo">
+          </a>
+          <!-- 搜索 -->
+          <div class="f1">
+            <div class="search-box">
+              <div class="fl wd-480 pr zi-1 associate-container">
+                <input type="text" id="gudingsearch" placeholder="快乐读书吧" class="bd-n searchkey">
+              </div>
+              <p class="fr icon-search-line cl-f fs-27 tosearch"><img src="images/magnifying.png" alt="" width="25" height="25" style="vertical-align: middle;"></p>
+              <div class="cb"></div>
+            </div>
+            <img src="" alt="">
+            <p class="fs-12 lh-25  tip">
+              <a href="" target="_blank" class="cl-rd-l" title="红星照耀中国" style="color: red;">红星照耀中国</a>
+              <span class="cl-9 pd-0005">|</span>
+              <a href="" target="_blank" class="cl-9" title="三体">三体</a>
+              <span class="cl-9 pd-0005">|</span>
+              <a href="" target="_blank" class="cl-9" title="新课标">新课标</a>
+              <span class="cl-9 pd-0005">|</span>
+              <a href="" target="_blank" class="cl-9" title="冬之旅">冬之旅</a>
+              <span class="cl-9 pd-0005">|</span>
+              <a href="" target="_blank" class="cl-9" title="水浒传">水浒传</a>
+            </p>
+            <div class="cb"></div>
+          </div>
+          <div class="fr ta-rt mt-8 cart">
+            <a href="cart.html" target="_blank" class="fs-16 bd-1-d br-4 pd-0610 cart-box">
+              <span class="icon-cart-block mr-10 cl-a9 pr tp-3 fs-18">
+                <img src="images/shopping.png" alt="" id="shopping">
+              </span>
+              <span class="mr-5">购物车</span>
+            </a>
+          </div>
+          <div class="cb"></div>
+        </div>
+      </div>
+      <!-- 分类 -->
+      <div class="nav-box">
+        <div class="type fl public">
+          <a href="" target="_blank" class="db cl-f title" style="color: #fff;">
+            <span class="icon-type-line cl-f mr-10 pr tp-2"><img src="images/list.png" alt="" id="list"></span>
+            所有商品分类
+          </a>
+        </div>
+        <div class="nav fl">
+          <!-- 固定导航菜单 -->
+          <a target="_blank" class="db pd-0015 fl on-mouse" href=""><span>首页</span></a>
+          <a target="_blank" class="db pd-0015 fl " href=""><span>新品</span></a>
+          <a target="_blank" class="db pd-0015 fl " href=""><span>限时购</span></a>
+          <a target="_blank" class="db pd-0015 fl " href=""><span>排行榜</span></a>
+          <!-- 自定义导航菜单 -->
+          <span class="db pd-0015 fl">|</span>
+          <a href="" target="_blank" class="db pd-0015 fl"><span>图书馆</span></a>
+        </div>
+        <div class="cb"></div>
+      </div>
+    </div>
+  </div>
+  <!-- 中部 -->
+  <div class="section bc-f5" style="height: 710px;">
+    <!-- 菜单 banner 公告 -->
+    <div class="ht-400 pr">
+      <!-- 菜单 -->
+        <!-- 公共 菜单 展示页 -->
+        <div class="menu fl mouseenter-box">
+          <div class="mouseenter">
+            <div class="title">
+              <a href="" target="_blank" class="cl-f lh-40 db">
+                <p id="img"><img src="images/characterart.png" alt=""></p>
+                <p class="characterart" id="word" style="color: #fff;">文学艺术</p>
+                <p><img src="images/rarrow.png" alt="" style="padding-top: 10px;"></p>
+              </a>
+            </div>
+            <ul>
+              <div class="bb-1-e pb-5">
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">村上春树</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">东野圭吾</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">诺贝尔文学奖</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">茅盾文学奖</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">明朝那些事儿</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">我们仨</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">平凡的世界</a>
+                <div class="cb"></div>
+              </div>
+              <div class="minh-215 mb-5">
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">诗歌散文</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">中国古诗词</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国现当代诗歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国诗歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国古代随笔</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国现当代随笔</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国随笔</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">小说</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">名家名作</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国古典小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">四大名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">世界名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">都市情感</a>
+                    <a href="" target="_blank" class="hover fl mr-15">武侠小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">侦探/悬疑/推理</a>
+                    <a href="" target="_blank" class="hover fl mr-15">职场小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">官场小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">军事小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">魔幻小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科幻小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">恐怖小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">乡土小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">社会小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">历史小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">影视小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">民间文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">纪实文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">青春文学</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">校园</a>
+                    <a href="" target="_blank" class="hover fl mr-15">爱情/情感</a>
+                    <a href="" target="_blank" class="hover fl mr-15">叛逆/成长</a>
+                    <a href="" target="_blank" class="hover fl mr-15">娱乐/偶像</a>
+                    <a href="" target="_blank" class="hover fl mr-15">爆笑/无厘头</a>
+                    <a href="" target="_blank" class="hover fl mr-15">玄幻</a>
+                    <a href="" target="_blank" class="hover fl mr-15">悬疑/惊悚</a>
+                    <a href="" target="_blank" class="hover fl mr-15">穿越/重生/架空</a>
+                    <a href="" target="_blank" class="hover fl mr-15">古代言情</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">文集理论</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">文学理论</a>
+                    <a href="" target="_blank" class="hover fl mr-15">评论与鉴赏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">文集</a>
+                    <a href="" target="_blank" class="hover fl mr-15">作品集</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">古籍</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">经部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">史部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">子部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">集部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">四库全书</a>
+                    <a href="" target="_blank" class="hover fl mr-15">古籍工具书</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">艺术</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">艺术理论</a>
+                    <a href="" target="_blank" class="hover fl mr-15">音乐</a>
+                    <a href="" target="_blank" class="hover fl mr-15">舞蹈</a>
+                    <a href="" target="_blank" class="hover fl mr-15">绘画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">设计</a>
+                    <a href="" target="_blank" class="hover fl mr-15">建筑</a>
+                    <a href="" target="_blank" class="hover fl mr-15">戏曲</a>
+                    <a href="" target="_blank" class="hover fl mr-15">戏剧</a>
+                    <a href="" target="_blank" class="hover fl mr-15">影视/媒体</a>
+                    <a href="" target="_blank" class="hover fl mr-15">收藏/鉴赏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">书法篆刻</a>
+                    <a href="" target="_blank" class="hover fl mr-15">雕塑</a>
+                    <a href="" target="_blank" class="hover fl mr-15">摄影</a>
+                    <a href="" target="_blank" class="hover fl mr-15">小人书/连环画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">各国艺术概况</a>
+                    <a href="" target="_blank" class="hover fl mr-15">艺术类考试</a>
+                    <a href="" target="_blank" class="hover fl mr-15">工艺美术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">民间艺术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">人体艺术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">动漫/幽默</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">大陆漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">港台漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">日韩漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">欧美漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其他国外漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">动漫绘制技法</a>
+                    <a href="" target="_blank" class="hover fl mr-15">幽默/笑话集</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+              </div>
+            </ul>
+          </div>
+          <div class="mouseenter">
+            <div class="title">
+              <a href="" target="_blank" class="cl-f lh-40 db">
+                <p id="img"><img src="images/child.png" alt=""></p>
+                <p class="characterart" id="word" style="color: #fff;">少儿童书</p>
+                <p><img src="images/rarrow.png" alt="" style="padding-top: 10px;"></p>
+              </a>
+            </div>
+            <ul>
+              <div class="bb-1-e pb-5">
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">淘气包马小跳</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">沈石溪动物小说</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">曹文轩</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">国际大奖小说</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">小猪佩奇</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">赛车总动员</a>
+                <div class="cb"></div>
+              </div>
+              <div class="minh-215 mb-5">
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">0-2岁</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">启蒙认知</a>
+                    <a href="" target="_blank" class="hover fl mr-15">益智游戏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">入园准备</a>
+                    <a href="" target="_blank" class="hover fl mr-15">国学启蒙</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科普百科</a>
+                    <a href="" target="_blank" class="hover fl mr-15">艺术课堂</a>
+                    <a href="" target="_blank" class="hover fl mr-15">儿童文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">少儿英语</a>
+                    <a href="" target="_blank" class="hover fl mr-15">手工制作</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童话寓言</a>
+                    <a href="" target="_blank" class="hover fl mr-15">成语故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">图画故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">探案历险</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童谣</a>
+                  </div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">3-6岁</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">启蒙认知</a>
+                    <a href="" target="_blank" class="hover fl mr-15">益智游戏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">入园准备</a>
+                    <a href="" target="_blank" class="hover fl mr-15">国学启蒙</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科普百科</a>
+                    <a href="" target="_blank" class="hover fl mr-15">艺术课堂</a>
+                    <a href="" target="_blank" class="hover fl mr-15">儿童文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">少儿英语</a>
+                    <a href="" target="_blank" class="hover fl mr-15">手工制作</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童话寓言</a>
+                    <a href="" target="_blank" class="hover fl mr-15">成语故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">探案历险</a>
+                    <a href="" target="_blank" class="hover fl mr-15">卡通/动漫/图画书</a>
+                  </div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">7-10岁</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">益智游戏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">国学启蒙</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科普百科</a>
+                    <a href="" target="_blank" class="hover fl mr-15">艺术课堂</a>
+                    <a href="" target="_blank" class="hover fl mr-15">儿童文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">少儿英语</a>
+                    <a href="" target="_blank" class="hover fl mr-15">手工制作</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童话寓言</a>
+                    <a href="" target="_blank" class="hover fl mr-15">成语故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">探案历险</a>
+                    <a href="" target="_blank" class="hover fl mr-15">励志/成长</a>
+                  </div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">11-14岁</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">益智游戏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">国学启蒙</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科普百科</a>
+                    <a href="" target="_blank" class="hover fl mr-15">艺术课堂</a>
+                    <a href="" target="_blank" class="hover fl mr-15">儿童文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">少儿英语</a>
+                    <a href="" target="_blank" class="hover fl mr-15">手工制作</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童话寓言</a>
+                    <a href="" target="_blank" class="hover fl mr-15">成语故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">探案历险</a>
+                    <a href="" target="_blank" class="hover fl mr-15">卡通/动漫/图画书</a>
+                  </div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">中国儿童文学</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">校园/成长小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">侦探/冒险小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">动物小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">幻想小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童话寓言</a>
+                    <a href="" target="_blank" class="hover fl mr-15">成语故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">神话传说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童谣/儿歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">少儿版经典名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">诗歌/散文</a>
+                    <a href="" target="_blank" class="hover fl mr-15">传统文化</a>
+                    <a href="" target="_blank" class="hover fl mr-15">传记</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">外国儿童文学</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">校园/成长小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">侦探/冒险小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">动物小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童话寓言</a>
+                    <a href="" target="_blank" class="hover fl mr-15">成语故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">神话传说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童谣/儿歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">少儿版经典名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">诗歌/散文</a>
+                    <a href="" target="_blank" class="hover fl mr-15">传记</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">科普百科</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">百科全书</a>
+                    <a href="" target="_blank" class="hover fl mr-15">动物</a>
+                    <a href="" target="_blank" class="hover fl mr-15">植物</a>
+                    <a href="" target="_blank" class="hover fl mr-15">历史</a>
+                    <a href="" target="_blank" class="hover fl mr-15">人文地理</a>
+                    <a href="" target="_blank" class="hover fl mr-15">天文海洋</a>
+                    <a href="" target="_blank" class="hover fl mr-15">航空航天</a>
+                    <a href="" target="_blank" class="hover fl mr-15">数理化</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科学技术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">人体奥秘</a>
+                  </div>
+                </li>
+              </div>
+            </ul>
+          </div>
+          <div class="mouseenter">
+            <div class="title">
+              <a href="" target="_blank" class="cl-f lh-40 db">
+                <p id="img"><img src="images/leaf.png" alt=""></p>
+                <p class="characterart" id="word" style="color: #fff;">人文社科</p>
+                <p><img src="images/rarrow.png" alt="" style="padding-top: 10px;"></p>
+              </a>
+            </div>
+            <ul>
+              <div class="bb-1-e pb-5">
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">甲骨文丛书</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">汉译世界学术名著丛书</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">中华经典名著全本全注全译丛书</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">轻与重文丛</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">基督教经典译丛</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">中华现代学术名著丛书</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">西方传统经典与解释</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">国际文化版图研究文库</a>
+                <div class="cb"></div>
+              </div>
+              <div class="minh-215 mb-5">
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">历史</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">中国古诗词</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国现当代诗歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国诗歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国古代随笔</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国现当代随笔</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国随笔</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">小说</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">名家名作</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国古典小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">四大名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">世界名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">都市情感</a>
+                    <a href="" target="_blank" class="hover fl mr-15">武侠小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">侦探/悬疑/推理</a>
+                    <a href="" target="_blank" class="hover fl mr-15">职场小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">官场小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">军事小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">魔幻小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科幻小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">恐怖小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">乡土小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">社会小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">历史小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">影视小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">民间文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">纪实文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">青春文学</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">校园</a>
+                    <a href="" target="_blank" class="hover fl mr-15">爱情/情感</a>
+                    <a href="" target="_blank" class="hover fl mr-15">叛逆/成长</a>
+                    <a href="" target="_blank" class="hover fl mr-15">娱乐/偶像</a>
+                    <a href="" target="_blank" class="hover fl mr-15">爆笑/无厘头</a>
+                    <a href="" target="_blank" class="hover fl mr-15">玄幻</a>
+                    <a href="" target="_blank" class="hover fl mr-15">悬疑/惊悚</a>
+                    <a href="" target="_blank" class="hover fl mr-15">穿越/重生/架空</a>
+                    <a href="" target="_blank" class="hover fl mr-15">古代言情</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">文集理论</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">文学理论</a>
+                    <a href="" target="_blank" class="hover fl mr-15">评论与鉴赏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">文集</a>
+                    <a href="" target="_blank" class="hover fl mr-15">作品集</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">古籍</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">经部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">史部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">子部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">集部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">四库全书</a>
+                    <a href="" target="_blank" class="hover fl mr-15">古籍工具书</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">艺术</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">艺术理论</a>
+                    <a href="" target="_blank" class="hover fl mr-15">音乐</a>
+                    <a href="" target="_blank" class="hover fl mr-15">舞蹈</a>
+                    <a href="" target="_blank" class="hover fl mr-15">绘画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">设计</a>
+                    <a href="" target="_blank" class="hover fl mr-15">建筑</a>
+                    <a href="" target="_blank" class="hover fl mr-15">戏曲</a>
+                    <a href="" target="_blank" class="hover fl mr-15">戏剧</a>
+                    <a href="" target="_blank" class="hover fl mr-15">影视/媒体</a>
+                    <a href="" target="_blank" class="hover fl mr-15">收藏/鉴赏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">书法篆刻</a>
+                    <a href="" target="_blank" class="hover fl mr-15">雕塑</a>
+                    <a href="" target="_blank" class="hover fl mr-15">摄影</a>
+                    <a href="" target="_blank" class="hover fl mr-15">小人书/连环画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">各国艺术概况</a>
+                    <a href="" target="_blank" class="hover fl mr-15">艺术类考试</a>
+                    <a href="" target="_blank" class="hover fl mr-15">工艺美术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">民间艺术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">人体艺术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">动漫/幽默</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">大陆漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">港台漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">日韩漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">欧美漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其他国外漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">动漫绘制技法</a>
+                    <a href="" target="_blank" class="hover fl mr-15">幽默/笑话集</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+              </div>
+            </ul>
+          </div>
+          <div class="mouseenter">
+            <div class="title">
+              <a href="" target="_blank" class="cl-f lh-40 db">
+                <p id="img"><img src="images/wallet.png" alt=""></p>
+                <p class="characterart" id="word" style="color: #fff;">经管励志</p>
+                <p><img src="images/rarrow.png" alt="" style="padding-top: 10px;"></p>
+              </a>
+            </div>
+            <ul>
+              <div class="bb-1-e pb-5">
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">村上春树</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">东野圭吾</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">诺贝尔文学奖</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">茅盾文学奖</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">明朝那些事儿</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">我们仨</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">平凡的世界</a>
+                <div class="cb"></div>
+              </div>
+              <div class="minh-215 mb-5">
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">诗歌散文</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">中国古诗词</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国现当代诗歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国诗歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国古代随笔</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国现当代随笔</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国随笔</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">小说</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">名家名作</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国古典小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">四大名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">世界名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">都市情感</a>
+                    <a href="" target="_blank" class="hover fl mr-15">武侠小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">侦探/悬疑/推理</a>
+                    <a href="" target="_blank" class="hover fl mr-15">职场小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">官场小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">军事小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">魔幻小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科幻小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">恐怖小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">乡土小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">社会小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">历史小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">影视小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">民间文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">纪实文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">青春文学</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">校园</a>
+                    <a href="" target="_blank" class="hover fl mr-15">爱情/情感</a>
+                    <a href="" target="_blank" class="hover fl mr-15">叛逆/成长</a>
+                    <a href="" target="_blank" class="hover fl mr-15">娱乐/偶像</a>
+                    <a href="" target="_blank" class="hover fl mr-15">爆笑/无厘头</a>
+                    <a href="" target="_blank" class="hover fl mr-15">玄幻</a>
+                    <a href="" target="_blank" class="hover fl mr-15">悬疑/惊悚</a>
+                    <a href="" target="_blank" class="hover fl mr-15">穿越/重生/架空</a>
+                    <a href="" target="_blank" class="hover fl mr-15">古代言情</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">文集理论</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">文学理论</a>
+                    <a href="" target="_blank" class="hover fl mr-15">评论与鉴赏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">文集</a>
+                    <a href="" target="_blank" class="hover fl mr-15">作品集</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">古籍</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">经部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">史部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">子部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">集部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">四库全书</a>
+                    <a href="" target="_blank" class="hover fl mr-15">古籍工具书</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">艺术</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">艺术理论</a>
+                    <a href="" target="_blank" class="hover fl mr-15">音乐</a>
+                    <a href="" target="_blank" class="hover fl mr-15">舞蹈</a>
+                    <a href="" target="_blank" class="hover fl mr-15">绘画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">设计</a>
+                    <a href="" target="_blank" class="hover fl mr-15">建筑</a>
+                    <a href="" target="_blank" class="hover fl mr-15">戏曲</a>
+                    <a href="" target="_blank" class="hover fl mr-15">戏剧</a>
+                    <a href="" target="_blank" class="hover fl mr-15">影视/媒体</a>
+                    <a href="" target="_blank" class="hover fl mr-15">收藏/鉴赏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">书法篆刻</a>
+                    <a href="" target="_blank" class="hover fl mr-15">雕塑</a>
+                    <a href="" target="_blank" class="hover fl mr-15">摄影</a>
+                    <a href="" target="_blank" class="hover fl mr-15">小人书/连环画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">各国艺术概况</a>
+                    <a href="" target="_blank" class="hover fl mr-15">艺术类考试</a>
+                    <a href="" target="_blank" class="hover fl mr-15">工艺美术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">民间艺术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">人体艺术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">动漫/幽默</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">大陆漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">港台漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">日韩漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">欧美漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其他国外漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">动漫绘制技法</a>
+                    <a href="" target="_blank" class="hover fl mr-15">幽默/笑话集</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+              </div>
+            </ul>
+          </div>
+          <div class="mouseenter">
+            <div class="title">
+              <a href="" target="_blank" class="cl-f lh-40 db">
+                <p id="img"><img src="images/glasses.png" alt=""></p>
+                <p class="characterart" id="word" style="color: #fff;">生活时尚</p>
+                <p><img src="images/rarrow.png" alt="" style="padding-top: 10px;"></p>
+              </a>
+            </div>
+            <ul>
+              <div class="bb-1-e pb-5">
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">甲骨文丛书</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">汉译世界学术名著丛书</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">中华经典名著全本全注全译丛书</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">轻与重文丛</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">基督教经典译丛</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">中华现代学术名著丛书</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">西方传统经典与解释</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">国际文化版图研究文库</a>
+                <div class="cb"></div>
+              </div>
+              <div class="minh-215 mb-5">
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">历史</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">中国古诗词</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国现当代诗歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国诗歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国古代随笔</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国现当代随笔</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国随笔</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">小说</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">名家名作</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国古典小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">四大名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">世界名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">都市情感</a>
+                    <a href="" target="_blank" class="hover fl mr-15">武侠小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">侦探/悬疑/推理</a>
+                    <a href="" target="_blank" class="hover fl mr-15">职场小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">官场小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">军事小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">魔幻小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科幻小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">恐怖小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">乡土小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">社会小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">历史小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">影视小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">民间文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">纪实文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">青春文学</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">校园</a>
+                    <a href="" target="_blank" class="hover fl mr-15">爱情/情感</a>
+                    <a href="" target="_blank" class="hover fl mr-15">叛逆/成长</a>
+                    <a href="" target="_blank" class="hover fl mr-15">娱乐/偶像</a>
+                    <a href="" target="_blank" class="hover fl mr-15">爆笑/无厘头</a>
+                    <a href="" target="_blank" class="hover fl mr-15">玄幻</a>
+                    <a href="" target="_blank" class="hover fl mr-15">悬疑/惊悚</a>
+                    <a href="" target="_blank" class="hover fl mr-15">穿越/重生/架空</a>
+                    <a href="" target="_blank" class="hover fl mr-15">古代言情</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">文集理论</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">文学理论</a>
+                    <a href="" target="_blank" class="hover fl mr-15">评论与鉴赏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">文集</a>
+                    <a href="" target="_blank" class="hover fl mr-15">作品集</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">古籍</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">经部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">史部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">子部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">集部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">四库全书</a>
+                    <a href="" target="_blank" class="hover fl mr-15">古籍工具书</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">艺术</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">艺术理论</a>
+                    <a href="" target="_blank" class="hover fl mr-15">音乐</a>
+                    <a href="" target="_blank" class="hover fl mr-15">舞蹈</a>
+                    <a href="" target="_blank" class="hover fl mr-15">绘画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">设计</a>
+                    <a href="" target="_blank" class="hover fl mr-15">建筑</a>
+                    <a href="" target="_blank" class="hover fl mr-15">戏曲</a>
+                    <a href="" target="_blank" class="hover fl mr-15">戏剧</a>
+                    <a href="" target="_blank" class="hover fl mr-15">影视/媒体</a>
+                    <a href="" target="_blank" class="hover fl mr-15">收藏/鉴赏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">书法篆刻</a>
+                    <a href="" target="_blank" class="hover fl mr-15">雕塑</a>
+                    <a href="" target="_blank" class="hover fl mr-15">摄影</a>
+                    <a href="" target="_blank" class="hover fl mr-15">小人书/连环画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">各国艺术概况</a>
+                    <a href="" target="_blank" class="hover fl mr-15">艺术类考试</a>
+                    <a href="" target="_blank" class="hover fl mr-15">工艺美术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">民间艺术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">人体艺术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">动漫/幽默</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">大陆漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">港台漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">日韩漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">欧美漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其他国外漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">动漫绘制技法</a>
+                    <a href="" target="_blank" class="hover fl mr-15">幽默/笑话集</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+              </div>
+            </ul>
+          </div>
+          <div class="mouseenter">
+            <div class="title">
+              <a href="" target="_blank" class="cl-f lh-40 db">
+                <p id="img"><img src="images/doctoralcap .png" alt=""></p>
+                <p class="characterart" id="word" style="color: #fff;">科技教育</p>
+                <p><img src="images/rarrow.png" alt="" style="padding-top: 10px;"></p>
+              </a>
+            </div>
+            <ul>
+              <div class="bb-1-e pb-5">
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">淘气包马小跳</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">沈石溪动物小说</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">曹文轩</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">国际大奖小说</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">小猪佩奇</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">赛车总动员</a>
+                <div class="cb"></div>
+              </div>
+              <div class="minh-215 mb-5">
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">0-2岁</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">启蒙认知</a>
+                    <a href="" target="_blank" class="hover fl mr-15">益智游戏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">入园准备</a>
+                    <a href="" target="_blank" class="hover fl mr-15">国学启蒙</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科普百科</a>
+                    <a href="" target="_blank" class="hover fl mr-15">艺术课堂</a>
+                    <a href="" target="_blank" class="hover fl mr-15">儿童文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">少儿英语</a>
+                    <a href="" target="_blank" class="hover fl mr-15">手工制作</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童话寓言</a>
+                    <a href="" target="_blank" class="hover fl mr-15">成语故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">图画故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">探案历险</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童谣</a>
+                  </div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">3-6岁</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">启蒙认知</a>
+                    <a href="" target="_blank" class="hover fl mr-15">益智游戏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">入园准备</a>
+                    <a href="" target="_blank" class="hover fl mr-15">国学启蒙</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科普百科</a>
+                    <a href="" target="_blank" class="hover fl mr-15">艺术课堂</a>
+                    <a href="" target="_blank" class="hover fl mr-15">儿童文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">少儿英语</a>
+                    <a href="" target="_blank" class="hover fl mr-15">手工制作</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童话寓言</a>
+                    <a href="" target="_blank" class="hover fl mr-15">成语故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">探案历险</a>
+                    <a href="" target="_blank" class="hover fl mr-15">卡通/动漫/图画书</a>
+                  </div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">7-10岁</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">益智游戏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">国学启蒙</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科普百科</a>
+                    <a href="" target="_blank" class="hover fl mr-15">艺术课堂</a>
+                    <a href="" target="_blank" class="hover fl mr-15">儿童文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">少儿英语</a>
+                    <a href="" target="_blank" class="hover fl mr-15">手工制作</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童话寓言</a>
+                    <a href="" target="_blank" class="hover fl mr-15">成语故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">探案历险</a>
+                    <a href="" target="_blank" class="hover fl mr-15">励志/成长</a>
+                  </div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">11-14岁</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">益智游戏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">国学启蒙</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科普百科</a>
+                    <a href="" target="_blank" class="hover fl mr-15">艺术课堂</a>
+                    <a href="" target="_blank" class="hover fl mr-15">儿童文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">少儿英语</a>
+                    <a href="" target="_blank" class="hover fl mr-15">手工制作</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童话寓言</a>
+                    <a href="" target="_blank" class="hover fl mr-15">成语故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">探案历险</a>
+                    <a href="" target="_blank" class="hover fl mr-15">卡通/动漫/图画书</a>
+                  </div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">中国儿童文学</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">校园/成长小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">侦探/冒险小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">动物小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">幻想小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童话寓言</a>
+                    <a href="" target="_blank" class="hover fl mr-15">成语故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">神话传说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童谣/儿歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">少儿版经典名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">诗歌/散文</a>
+                    <a href="" target="_blank" class="hover fl mr-15">传统文化</a>
+                    <a href="" target="_blank" class="hover fl mr-15">传记</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">外国儿童文学</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">校园/成长小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">侦探/冒险小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">动物小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童话寓言</a>
+                    <a href="" target="_blank" class="hover fl mr-15">成语故事</a>
+                    <a href="" target="_blank" class="hover fl mr-15">神话传说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">童谣/儿歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">少儿版经典名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">诗歌/散文</a>
+                    <a href="" target="_blank" class="hover fl mr-15">传记</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">科普百科</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">百科全书</a>
+                    <a href="" target="_blank" class="hover fl mr-15">动物</a>
+                    <a href="" target="_blank" class="hover fl mr-15">植物</a>
+                    <a href="" target="_blank" class="hover fl mr-15">历史</a>
+                    <a href="" target="_blank" class="hover fl mr-15">人文地理</a>
+                    <a href="" target="_blank" class="hover fl mr-15">天文海洋</a>
+                    <a href="" target="_blank" class="hover fl mr-15">航空航天</a>
+                    <a href="" target="_blank" class="hover fl mr-15">数理化</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科学技术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">人体奥秘</a>
+                  </div>
+                </li>
+              </div>
+            </ul>
+          </div>
+          <div class="mouseenter">
+            <div class="title">
+              <a href="" target="_blank" class="cl-f lh-40 db">
+                <p id="img"><img src="images/brush.png" alt=""></p>
+                <p class="characterart" id="word" style="color: #fff;">影音原版</p>
+                <p><img src="images/rarrow.png" alt="" style="padding-top: 10px;"></p>
+              </a>
+            </div>
+            <ul>
+              <div class="bb-1-e pb-5">
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">甲骨文丛书</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">汉译世界学术名著丛书</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">中华经典名著全本全注全译丛书</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">轻与重文丛</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">基督教经典译丛</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">中华现代学术名著丛书</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">西方传统经典与解释</a>
+                <a href="" target="_blank" class="bc-bl cl-f pd-0005 bd-1-bl-d mr-10 fl mb-5">国际文化版图研究文库</a>
+                <div class="cb"></div>
+              </div>
+              <div class="minh-215 mb-5">
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">历史</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">中国古诗词</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国现当代诗歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国诗歌</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国古代随笔</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国现当代随笔</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国随笔</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">小说</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">名家名作</a>
+                    <a href="" target="_blank" class="hover fl mr-15">中国古典小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">四大名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">世界名著</a>
+                    <a href="" target="_blank" class="hover fl mr-15">外国小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">都市情感</a>
+                    <a href="" target="_blank" class="hover fl mr-15">武侠小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">侦探/悬疑/推理</a>
+                    <a href="" target="_blank" class="hover fl mr-15">职场小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">官场小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">军事小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">魔幻小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">科幻小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">恐怖小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">乡土小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">社会小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">历史小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">影视小说</a>
+                    <a href="" target="_blank" class="hover fl mr-15">民间文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">纪实文学</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">青春文学</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">校园</a>
+                    <a href="" target="_blank" class="hover fl mr-15">爱情/情感</a>
+                    <a href="" target="_blank" class="hover fl mr-15">叛逆/成长</a>
+                    <a href="" target="_blank" class="hover fl mr-15">娱乐/偶像</a>
+                    <a href="" target="_blank" class="hover fl mr-15">爆笑/无厘头</a>
+                    <a href="" target="_blank" class="hover fl mr-15">玄幻</a>
+                    <a href="" target="_blank" class="hover fl mr-15">悬疑/惊悚</a>
+                    <a href="" target="_blank" class="hover fl mr-15">穿越/重生/架空</a>
+                    <a href="" target="_blank" class="hover fl mr-15">古代言情</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">文集理论</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">文学理论</a>
+                    <a href="" target="_blank" class="hover fl mr-15">评论与鉴赏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">文集</a>
+                    <a href="" target="_blank" class="hover fl mr-15">作品集</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">古籍</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">经部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">史部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">子部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">集部</a>
+                    <a href="" target="_blank" class="hover fl mr-15">四库全书</a>
+                    <a href="" target="_blank" class="hover fl mr-15">古籍工具书</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">艺术</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">艺术理论</a>
+                    <a href="" target="_blank" class="hover fl mr-15">音乐</a>
+                    <a href="" target="_blank" class="hover fl mr-15">舞蹈</a>
+                    <a href="" target="_blank" class="hover fl mr-15">绘画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">设计</a>
+                    <a href="" target="_blank" class="hover fl mr-15">建筑</a>
+                    <a href="" target="_blank" class="hover fl mr-15">戏曲</a>
+                    <a href="" target="_blank" class="hover fl mr-15">戏剧</a>
+                    <a href="" target="_blank" class="hover fl mr-15">影视/媒体</a>
+                    <a href="" target="_blank" class="hover fl mr-15">收藏/鉴赏</a>
+                    <a href="" target="_blank" class="hover fl mr-15">书法篆刻</a>
+                    <a href="" target="_blank" class="hover fl mr-15">雕塑</a>
+                    <a href="" target="_blank" class="hover fl mr-15">摄影</a>
+                    <a href="" target="_blank" class="hover fl mr-15">小人书/连环画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">各国艺术概况</a>
+                    <a href="" target="_blank" class="hover fl mr-15">艺术类考试</a>
+                    <a href="" target="_blank" class="hover fl mr-15">工艺美术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">民间艺术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">人体艺术</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+                <li class="clearfix fs-13 lh-20">
+                  <div class="wd-110 fl ">
+                    <a href="" target="_blank" class="hover fl mr-15 fw-bd">动漫/幽默</a><div class="cb"></div>
+                  </div>
+                  <div class="wd-650 cl-6 fl" style="width: 650px;">
+                    <a href="" target="_blank" class="hover fl mr-15">大陆漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">港台漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">日韩漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">欧美漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其他国外漫画</a>
+                    <a href="" target="_blank" class="hover fl mr-15">动漫绘制技法</a>
+                    <a href="" target="_blank" class="hover fl mr-15">幽默/笑话集</a>
+                    <a href="" target="_blank" class="hover fl mr-15">其它</a>
+                  </div>
+                  <div class="cb"></div>
+                </li>
+              </div>
+            </ul>
+          </div>
+        </div>
+        <!-- banner轮播图 -->
+        <div class="banner pr" style="position:relative;">
+          <ul class="imgBox clearFix">
+            <a href="banner1.html">
+              <li><img src="images/banner6.jpg" alt=""></li>
+            </a>
+            <a href="banner1.html">
+              <li><img src="images/banner1.jpg" alt="xijinping"></li>
+            </a>
+            <a href="banner1.html">
+              <li><img src="images/banner2.jpg" alt=""></li>
+            </a>
+            <a href="banner1.html">
+              <li><img src="images/banner3.jpg" alt=""></li>
+            </a>
+            <a href="banner1.html">
+              <li><img src="images/banner4.jpg" alt=""></li>
+            </a>
+            <a href="banner1.html">
+              <li><img src="images/banner5.jpg" alt=""></li>
+            </a>
+            <a href="banner1.html">
+              <li><img src="images/banner6.jpg" alt=""></li>
+            </a>
+            <a href="banner1.html">
+              <li><img src="images/banner1.jpg" alt="xijinping"></li>
+            </a>
+          </ul>
+          <ol class="pointBox" id="pointBox">
+            <li class="active"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ol>
+          <div class="leftRightTabs">
+            <a href="#" id="cm_prev"><</a>
+            <a href="#" id="cm_next">></a>
+          </div>
+
+        </div>
+        <div class="notice">
+          <!-- 店铺 -->
+          <div class="title">
+            <ul class="bb-1-f1">
+              <div class="circle-70 ma">
+                <img src="images/default_shop.png" width="70" height="70" class="db" id="www_user_shop_signs" alt="">
+              </div>
+              <div class="to-hd lh-30 pd-0500 ta-ct" id="www_user_shop_name" style="color: black;">博库体验店</div>
+            </ul>
+            <div class="lh-40">
+              <div class="fs-12 fl wd-60" style="color: black;">分享店铺:</div>
+              <div class="bdsharebuttonbox va-md fl wd-100 bdshare-button-style0-16">
+                <a href="" title="分享到新浪微博" class="bds_tsina"><img src="images/sina.png" alt=""></a>
+                <a href="" title="分享到微信" class="bds_weixin"><img src="images/weixin.png" alt=""></a>
+                <a href="" title="分享到QQ" class="bds_tsina"><img src="images/qq.png" alt=""></a>
+              </div>
+              <div class="cb"></div>
+            </div>
+          </div>
+          <div class="mt-20 ht-40 ta-ct">
+            <a href="" class="cl-f fs-16 pd-0830 br-30" id="setup" target="_blank">一键开店</a>
+          </div>
+          <div class="pd-0510">
+            <p class="lh-30 cl-3 bb-1-f1">服务公告</p>
+            <div class="ht-100 oh fs-12 lh-25 cl-6">
+              <a href="" class="db to-hd cl-6 hover">
+                <span class="icon-arrow-line2 mr-2 fs-11"><img src="images/rarrow2.png" alt="" id="rarrow2"></span>
+                代发、批发合作
+              </a>
+              <a href="" class="db to-hd cl-6 hover">
+                <span class="icon-arrow-line2 mr-2 fs-11"><img src="images/rarrow2.png" alt="" id="rarrow2"></span>
+                新疆地区发货通知以及邮费通知
+              </a>
+              <a href="" class="db to-hd cl-6 hover">
+                <span class="icon-arrow-line2 mr-2 fs-11"><img src="images/rarrow2.png" alt="" id="rarrow2"></span>
+                关于博库网络有限公司引入顺丰快递服务单一来源采购公示
+              </a>
+              <a href="" class="db to-hd cl-6 hover">
+                <span class="icon-arrow-line2 mr-2 fs-11"><img src="images/rarrow2.png" alt="" id="rarrow2"></span>
+                IC充值卡兑换渠道
+              </a>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- 正品保证 -->
+    <div class="bc-f ht-40 lh-40">
+      <div class="wd-1200 ma pd-0020 ">
+        <label for="" class="mr-60">
+          <span><img src="images/quality.png" alt="" id="photo3"></span>
+          正品保证
+        </label>
+        <label for="" class="mr-60">
+          <span><img src="images/retreat.png" alt="" id="photo3"></span>
+          七天无理由退货
+        </label>
+        <label for="" class="mr-60">
+          <span><img src="images/post.png" alt="" id="photo3"></span>
+          全场满59包邮
+        </label>
+      </div>
+    </div>
+    <div class="wd-1200 ma">
+      <!-- 限时抢购 动态获取 -->
+      <div class="my_module" id="33" data-template-id="46" module-id="33" module-type="30">
+        <div class="anchor-box index_rush_time_zone" id="anchor0">
+          <div class="mb-10">
+            <div class="flashsale">
+              <div class="context">
+                <p class="fl ml-20">
+                  <img src="images/flashsale.png" height="25" class="mt-10 visible"  alt="">
+                </p>
+                <a href="" class="fl ml-20 cl-rd-l" style="color: #e4393c;">
+                  总有你想不到的低价
+                  <img src="images/rcircle.png" alt="" id="rcircle">
+                </a>
+              </div>
+            </div>
+            <!-- 商品列 -->
+            <div class="flexslider product-six box-shadow">
+              <div class="flex-viewport" style="overflow: hidden;position: relative;">
+                <ul class="slides mouseenter-box" style="width: 2000%;transition-duration: 0s;transform: scale3d(0px,0px,0px);">
+                  <li class="ta-ct scale-box" style="width: 200px;margin-right: 0;float: left;display: block;">
+                    <div class="mg-5 mouseenter mouseleave">
+                      <div class="oh scale pd-10">
+                        <a href="" class="db square-box one-one bgimg lazyload visible" target="_blank" id="snail">
+                          <img src="images/snail.jpg" alt="">
+                        </a>
+                      </div>
+                      <div class="context">
+                        <a href="" class="db cl-6 ht-36 lh-18 oh mt-5" target="_blank">快乐读书吧 五年级上册推荐阅读中国民间故事田螺姑娘+欧洲民间故事聪明的牧羊人上下+</a>
+                        <div>
+                          <span class="fs-16 cl-rd-l ">¥19.90</span>
+                          <span class="cl-9">|</span>
+                          <del class="fs-12 cl-9">¥52.40</del>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="ta-ct scale-box" style="width: 200px;margin-right: 0;float: left;display: block;">
+                    <div class="mg-5 mouseenter mouseleave">
+                      <div class="oh scale pd-10">
+                        <a href="" class="db square-box one-one bgimg lazyload visible" target="_blank" id="snail">
+                          <img src="images/petal.jpg" alt="">
+                        </a>
+                      </div>
+                      <div class="context">
+                        <a href="" class="db cl-6 ht-36 lh-18 oh mt-5" target="_blank">金波四季童话(注音美绘版共4册)</a>
+                        <div>
+                          <span class="fs-16 cl-rd-l ">¥49.90</span>
+                          <span class="cl-9">|</span>
+                          <del class="fs-12 cl-9">¥100.00</del>
+                        </div>                     
+                       </div>
+                    </div>
+                  </li>
+                  <li class="ta-ct scale-box" style="width: 200px;margin-right: 0;float: left;display: block;">
+                    <div class="mg-5 mouseenter mouseleave">
+                      <div class="oh scale pd-10">
+                        <a href="" class="db square-box one-one bgimg lazyload visible" target="_blank" id="snail">
+                          <img src="images/textbook.jpg" alt="">
+                        </a>
+                      </div>
+                      <div class="context">
+                        <a href="" class="db cl-6 ht-36 lh-18 oh mt-5" target="_blank">语文教材讲解-二年级（上册）</a>
+                        <div>
+                          <span class="fs-16 cl-rd-l ">¥12.80</span>
+                          <span class="cl-9">|</span>
+                          <del class="fs-12 cl-9">¥22.80</del>
+                        </div>                     
+                       </div>
+                    </div>
+                  </li>
+                  <li class="ta-ct scale-box" style="width: 200px;margin-right: 0;float: left;display: block;">
+                    <div class="mg-5 mouseenter mouseleave">
+                      <div class="oh scale pd-10">
+                        <a href="" class="db square-box one-one bgimg lazyload visible" target="_blank" id="snail">
+                          <img src="images/origin.jpg" alt="">
+                        </a>
+                      </div>
+                      <div class="context">
+                        <a href="" class="db cl-6 ht-36 lh-18 oh mt-5" target="_blank">物种起源</a>
+                        <div>
+                          <span class="fs-16 cl-rd-l ">¥18.80</span>
+                          <span class="cl-9">|</span>
+                          <del class="fs-12 cl-9">¥55.00</del>
+                        </div>                     
+                       </div>
+                    </div>
+                  </li>
+                  <li class="ta-ct scale-box" style="width: 200px;margin-right: 0;float: left;display: block;">
+                    <div class="mg-5 mouseenter mouseleave">
+                      <div class="oh scale pd-10">
+                        <a href="" class="db square-box one-one bgimg lazyload visible" target="_blank" id="snail">
+                          <img src="images/Shih.jpg" alt="">
+                        </a>
+                      </div>
+                      <div class="context">
+                        <a href="" class="db cl-6 ht-36 lh-18 oh mt-5" target="_blank">少年读史记(共8册)</a>
+                        <div>
+                          <span class="fs-16 cl-rd-l ">¥28.80</span>
+                          <span class="cl-9">|</span>
+                          <del class="fs-12 cl-9">¥144.00</del>
+                        </div>                     
+                       </div>
+                    </div>
+                  </li>
+                  <li class="ta-ct scale-box" style="width: 200px;margin-right: 0;float: left;display: block;">
+                    <div class="mg-5 mouseenter mouseleave">
+                      <div class="oh scale pd-10">
+                        <a href="" class="db square-box one-one bgimg lazyload visible" target="_blank" id="snail">
+                          <img src="images/nature.jpg" alt="">
+                        </a>
+                      </div>
+                      <div class="context">
+                        <a href="" class="db cl-6 ht-36 lh-18 oh mt-5" target="_blank">自然史</a>
+                        <div>
+                          <span class="fs-16 cl-rd-l ">¥18.80</span>
+                          <span class="cl-9">|</span>
+                          <del class="fs-12 cl-9">¥55.00</del>
+                        </div>                     
+                       </div>
+                    </div>
+                  </li>
+                </ul>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 板块 模块 和 卡片 -->
+      <!-- 图文 板块 -->
+      <div class="anchor-box" id="anchor1" data-template-id="9" plate-id="7" plate-type="5">
+        <ul class="mb-20">
+          <!-- 重磅推荐 -->
+          <li class="wd-390 fl" id="goto_zbtj">
+            <div class="card-box">
+              <p class="card">
+                <label for="" class="fl fs-18 mr-10"><img src="images/star.png" alt="" id="lphoto">重磅推荐</label>
+                <a href="" class="fl cl-f" target="_blank" style="color: #fff;">博库精选推荐 <img src="images/rarror.png" alt=""></a>
+              </p>
+              <div class="cb"></div>
+              <p></p>
+            </div>
+            <ul class="scale-box oh">
+              <li class="wd-50p fl ht-183">
+                <div class="bd-4-f scale oh">
+                  <a href="" class="db" target="_blank"><img src="images/brief.jpg" alt=""></a>
+                </div>
+              </li>
+              <li class="wd-50p fl ht-183">
+                <div class="bd-4-f scale oh">
+                  <a href="" class="db" target="_blank"><img src="images/Byakuyakou.jpg" alt=""></a>
+                </div>
+              </li>
+              <li class="wd-50p fl ht-93">
+                <div class="bd-4-f scale oh">
+                  <a href="" class="db" target="_blank"><img src="images/Familyheirloomgift.jpg" alt=""></a>
+                </div>
+              </li>
+              <li class="wd-50p fl ht-93">
+                <div class="bd-4-f scale oh">
+                  <a href="" class="db" target="_blank"><img src="images/BPpackage.jpg" alt=""></a>
+                </div>
+              </li>
+              <li class="wd-50p fl ht-93">
+                <div class="bd-4-f scale oh">
+                  <a href="" class="db" target="_blank"><img src="images/AI.jpg" alt=""></a>
+                </div>
+              </li>
+              <li class="wd-50p fl ht-93">
+                <div class="bd-4-f scale oh">
+                  <a href="" class="db" target="_blank"><img src="images/Myan.jpg" alt=""></a>
+                </div>
+              </li>
+              <div class="cb"></div>
+            </ul>
+          </li>
+          <!-- 新品速递 -->
+          <li class="wd-390 fl mg-0015">
+            <div class="card-box">
+              <p class="card clearfix">
+                <label for="" class="fl fs-18 mr-10"><img src="images/book.png" alt="" id="lphoto">新品速递</label>
+                <a href="" class="fl cl-f" target="_blank" style="color: #fff;">发现品质生活<img src="images/rarror.png" alt=""></a>
+              </p>
+              <div class="cb"></div>
+              <p></p>
+            </div>
+            <ul class="scale-box oh">
+              <li class="wd-50p fl ht-183">
+                <div class="bd-4-f scale oh">
+                  <a href="" class="db" target="_blank"><img src="images/Best-selling.jpg" alt=""></a>
+                </div>
+              </li>
+              <li class="wd-50p fl ht-183">
+                <div class="bd-4-f scale oh">
+                  <a href="" class="db" target="_blank"><img src="images/newbook.jpg" alt=""></a>
+                </div>
+              </li>
+              <li class="wd-50p fl ht-93">
+                <div class="bd-4-f scale oh">
+                  <a href="" class="db" target="_blank"><img src="images/signature.jpg" alt=""></a>
+                </div>
+              </li>
+              <li class="wd-50p fl ht-93">
+                <div class="bd-4-f scale oh">
+                  <a href="" class="db" target="_blank"><img src="images/booklist.jpg" alt=""></a>
+                </div>
+              </li>
+              <li class="wd-50p fl ht-93">
+                <div class="bd-4-f scale oh">
+                  <a href="" class="db" target="_blank"><img src="images/calendar.png" alt=""></a>
+                </div>
+              </li>
+              <li class="wd-50p fl ht-93">
+                <div class="bd-4-f scale oh">
+                  <a href="" class="db" target="_blank"><img src="images/sciencefiction.png" alt=""></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!-- 热销排行 -->
+          <li class="wd-390 ht-415 fr">
+            <div class="card-box">
+              <p class="card clearfix">
+                <label class="fl fs-18 mr-10"><img src="images/fire.png" alt="" id="lphoto">热销排行</label>
+                <a href="" class="fl cl-f" target="_blank" style="color: #fff;">网络全民挚爱 <img src="images/rarror.png" alt=""> </a>
+              </p>
+            </div>
+            <div class="bd-1-e8 tab-box">
+              <ul class="tab-title hotsale-title" id="tab-title">
+                <li class="ranking_list wd-25p fl on-tab" data-id="31">
+                  <a href="">图书</a> 
+                </li>
+                <li class="ranking_list wd-25p fl on-tab" data-id="38">
+                  <a href="">童书</a> 
+                </li>
+                <li class="ranking_list wd-25p fl on-tab" data-id="34">
+                  <a href="">文学</a> 
+                </li>
+                <li class="ranking_list wd-25p fl on-tab" data-id="39">
+                  <a href="">教辅</a> 
+                </li>
+                <div class="cb"></div>
+              </ul>
+              <ul class="tab-content hotsale-content mouseenter-box patch ht-325 oh">
+                <li id="my_ranktab_31" class="my_ranktab_content fs-14 on-tab ">
+                  <a href="" target="_blank">  
+                    <div class="fl wd-30 ta-lf">
+                      <img src="images/champion.png" width="20" class="pr tp-4" alt="" style="vertical-align: middle;">
+                    </div>
+                      <div class="fl wd-200 to-hd" id="textbox">所有失去的都会以另一种方式归来</div>
+                      <div class="fr ta-rt cl-6 wd-120 to-hd1">销量：643970</div>
+                  </a>
+                </li>
+                <li id="my_ranktab_31" class="my_ranktab_content fs-14 on-tab ">
+                  <a href="" target="_blank">  
+                    <div class="fl wd-30 ta-lf">
+                      <img src="images/runner-up.png" width="20" class="pr tp-4" alt="" style="vertical-align: middle;">
+                    </div>
+                      <div class="fl wd-200 to-hd" id="textbox">我们仨</div>
+                      <div class="fr ta-rt cl-6 wd-120 to-hd1">销量：535470</div>
+                  </a>
+                </li>
+                <li id="my_ranktab_31" class="my_ranktab_content fs-14 on-tab ">
+                  <a href="" target="_blank">  
+                    <div class="fl wd-30 ta-lf">
+                      <img src="images/third.png" width="20" class="pr tp-4" alt="" style="vertical-align: middle;">
+                    </div>
+                      <div class="fl wd-200 to-hd" id="textbox">活着/余华作品</div>
+                      <div class="fr ta-rt cl-6 wd-120 to-hd1">销量：417650</div>
+                  </a>
+                </li>
+                <li id="my_ranktab_31" class="my_ranktab_content fs-14 on-tab ">
+                  <a href="" target="_blank">  
+                    <div class="fl wd-30 ta-lf">
+                      <img src="images/fourth.png" width="20" class="pr tp-4" alt="" style="vertical-align: middle;">
+                    </div>
+                      <div class="fl wd-200 to-hd" id="textbox">偷影子的人</div>
+                      <div class="fr ta-rt cl-6 wd-120 to-hd1">销量：371639</div>
+                  </a>
+                </li>
+                <li id="my_ranktab_31" class="my_ranktab_content fs-14 on-tab ">
+                  <a href="" target="_blank">  
+                    <div class="fl wd-30 ta-lf">
+                      <img src="images/fifth.png" width="20" class="pr tp-4" alt="" style="vertical-align: middle;">
+                    </div>
+                      <div class="fl wd-200 to-hd" id="textbox">三体（1-3 共3册）</div>
+                      <div class="fr ta-rt cl-6 wd-120 to-hd1">销量：352044</div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!-- 【板块】分类频道 -->
+      <div class="anchor-box" id="anchor2" data-template-id="52" plate-id="21" plate-type="15">
+        <div class="mb-20 tab-box">
+          <!-- 分类 频道 标头 -->
+          <div class="navyblue-border">
+            <div class="context">
+              <label class="fl fs-18 mr-15">
+                <img src="images/plate_52_4.png" class="icon-book-line2 mr-4 fs-24 pr tp-5" width="25" height="25" alt="">
+                博库热推
+              </label>
+              <p class="fr">
+                <a href="" class="navyblue cp cl-3 pd-0410 mr-10 my_tab" data-id="50" style="color: #fff;background-color: #62adbb;">编辑精选</a>
+                <a href="" class="navyblue cp cl-3 pd-0410 mr-10 my_tab" data-id="40">新书上架</a>
+                <a href="" class="navyblue cp cl-3 pd-0410 mr-10 my_tab" data-id="52">畅销热卖</a>
+                <a href="" class="navyblue cp cl-3 pd-0410 mr-10 my_tab" data-id="51">一种关注</a>
+                <a href="" class="navyblue cp cl-3 pd-0410 mr-10 my_tab" data-id="6737">期刊MOOK</a>
+              </p>
+              <div class="cb"></div>
+            </div>
+          </div>
+          <!-- 模块加载区域 -->
+          <div class="my_tab_content bc-f " id="my_tab_50">
+            <!-- 商品列表1 -->
+            <div class="clearfix" style="border-bottom: 1px solid #f5f5f5;">
+              <a href="" class="db fl wd-200">
+                <img src="images/compile.png" alt="" width="200" height="280" class="db visible">
+              </a>
+              <ul class="wd-1000 fr mouseenter-box productlist-2 clearfix box-shadow">
+                <li class="wd-20p ta-ct fl scale-box">
+                  <div class="pd-5 mouseenter mouseleave bd-2-f">
+                    <a href=""><img src="images/starry.png" alt="" width="149" height="149"></a>
+                  </div>
+                  <div class="context">
+                    <a href="" class="db cl-6 ht-36 lh-18 oh mt-2" target="_blank">刘兴诗爷爷讲星空</a>
+                    <p class="lh-40">
+                      <span class="fs-16 cl-rd-l ">¥86.40</span>
+                      <span class="cl-9">|</span>
+                      <del class="fs-12 cl-9">¥180.00</del>
+                    </p>
+                  </div>
+                
+                
+                </li>
+                <li class="wd-20p ta-ct fl scale-box">
+                  <div class="pd-5 mouseenter mouseleave bd-2-f">
+                    <a href=""><img src="images/3756886.jpg" alt="" width="149" height="149"></a>
+                  </div>
+                  <div class="context">
+                    <a href="" class="db cl-6 ht-36 lh-18 oh mt-2" target="_blank">冬之旅(精)  收录万方4个话剧剧本</a>
+                    <p class="lh-40">
+                      <span class="fs-16 cl-rd-l ">¥20.90</span>
+                      <span class="cl-9">|</span>
+                      <del class="fs-12 cl-9">¥29.80</del>
+                    </p>
+                  </div>
+                </li>
+                <li class="wd-20p ta-ct fl scale-box">
+                  <div class="pd-5 mouseenter mouseleave bd-2-f">
+                    <a href=""><img src="images/2020081430934117-7175.jpg" alt="" width="149" height="149"></a>
+                  </div>
+                  <div class="context">
+                    <a href="" class="db cl-6 ht-36 lh-18 oh mt-2" target="_blank">一往无前：雷军亲述小米热血10年</a>
+                    <p class="lh-40">
+                      <span class="fs-16 cl-rd-l ">¥58.00</span>
+                      <span class="cl-9">|</span>
+                      <del class="fs-12 cl-9">¥78.00</del>
+                    </p>
+                  </div>
+                </li>
+                <li class="wd-20p ta-ct fl scale-box">
+                  <div class="pd-5 mouseenter mouseleave bd-2-f">
+                    <a href=""><img src="images/2019013130324646-29953.jpg" alt="" width="149" height="149"></a>
+                  </div>
+                  <div class="context">
+                    <a href="" class="db cl-6 ht-36 lh-18 oh mt-2" target="_blank">哈利·波特(共7册)(精)</a>
+                    <p class="lh-40">
+                      <span class="fs-16 cl-rd-l ">¥378.50</span>
+                      <span class="cl-9">|</span>
+                      <del class="fs-12 cl-9">¥438.00</del>
+                    </p>
+                  </div>
+                </li>
+                <li class="wd-20p ta-ct fl scale-box">
+                  <div class="pd-5 mouseenter mouseleave bd-2-f">
+                    <a href=""><img src="images/2018061330181734-35106.jpg" alt="" width="149" height="149"></a>
+                  </div>
+                  <div class="context">
+                    <a href="" class="db cl-6 ht-36 lh-18 oh mt-2" target="_blank">定制 南渡北归(1-3增订本)</a>
+                    <p class="lh-40">
+                      <span class="fs-16 cl-rd-l ">¥156.00</span>
+                      <span class="cl-9">|</span>
+                      <del class="fs-12 cl-9">¥195.00</del>
+                    </p>
+                  </div>
+                </li>          
+              </ul>
+            </div>
+            <!-- 商品列表2 -->
+            <div class="clearfix">
+              <ul class="wd-1000 fl mouseenter-box productlist-2 clearfix box-shadow">
+                <li class="wd-20p ta-ct fl scale-box">
+                  <div class="pd-5 mouseenter mouseleave bd-2-f">
+                    <div class="scale oh pd-20 pr">
+                      <a href="" class="db square-box one-one bgimg lazyload visible"><img src="images/3332262-fm.jpg" alt=""></a>
+                    </div>
+                    <div class="context">
+                      <a href="db cl-6 ht-36 lh-18 oh mt-2" target="_blank">金庸作品集(12种共36册)</a>
+                      <p class="lh-40">
+                        <span class="fs-16 cl-rd-l ">¥690.00</span>
+                        <span class="cl-9">|</span>
+                        <del class="fs-12 cl-9">¥968.00</del>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li class="wd-20p ta-ct fl scale-box">
+                  <div class="pd-5 mouseenter mouseleave bd-2-f">
+                    <div class="scale oh pd-20 pr">
+                      <a href="" class="db square-box one-one bgimg lazyload visible"><img src="images/1571628744.jpg" alt=""></a>
+                    </div>
+                    <div class="context">
+                      <a href="db cl-6 ht-36 lh-18 oh mt-2" target="_blank">宫西达也恐龙系列(共7册)/蒲蒲兰绘本馆</a>
+                      <p class="lh-40">
+                        <span class="fs-16 cl-rd-l ">¥97.00</span>
+                        <span class="cl-9">|</span>
+                        <del class="fs-12 cl-9">¥126.00</del>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li class="wd-20p ta-ct fl scale-box">
+                  <div class="pd-5 mouseenter mouseleave bd-2-f">
+                    <div class="scale oh pd-20 pr">
+                      <a href="" class="db square-box one-one bgimg lazyload visible"><img src="images/2020071630918924-27792.jpg" alt=""></a>
+                    </div>
+                    <div class="context">
+                      <a href="db cl-6 ht-36 lh-18 oh mt-2" target="_blank">一个人就一个人  专供  风景透卡书签</a>
+                      <p class="lh-40">
+                        <span class="fs-16 cl-rd-l ">¥34.40</span>
+                        <span class="cl-9">|</span>
+                        <del class="fs-12 cl-9">¥49.80</del>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li class="wd-20p ta-ct fl scale-box">
+                  <div class="pd-5 mouseenter mouseleave bd-2-f">
+                    <div class="scale oh pd-20 pr">
+                      <a href="" class="db square-box one-one bgimg lazyload visible"><img src="images/20200220B605603.jpg" alt=""></a>
+                    </div>
+                    <div class="context">
+                      <a href="db cl-6 ht-36 lh-18 oh mt-2" target="_blank">米小圈上学记(四年级)(4册）赠假话国历险记</a>
+                      <p class="lh-40">
+                        <span class="fs-16 cl-rd-l ">¥68.20</span>
+                        <span class="cl-9">|</span>
+                        <del class="fs-12 cl-9">¥129.80</del>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+                <li class="wd-20p ta-ct fl scale-box">
+                  <div class="pd-5 mouseenter mouseleave bd-2-f">
+                    <div class="scale oh pd-20 pr">
+                      <a href="" class="db square-box one-one bgimg lazyload visible"><img src="images/2020080830931938-48958.jpg" alt=""></a>
+                    </div>
+                    <div class="context">
+                      <a href="db cl-6 ht-36 lh-18 oh mt-2" target="_blank">莫言：晚熟的人</a>
+                      <p class="lh-40">
+                        <span class="fs-16 cl-rd-l ">¥42.48</span>
+                        <span class="cl-9">|</span>
+                        <del class="fs-12 cl-9">¥59.00</del>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <a href="" class="db fr wd-200" target="_blank">
+                <img src="images/20180828104329956.jpg" alt="" width="200" height="280" class="db visible">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 广告图集 三张均分广告图 -->
+      <div class="my_module" id="34" data-template-id="38" module-id="34" module-type="1">
+        <div class="mb-20">
+          <ul>
+            <li class="wd-33p fl">
+              <a href="" target="_blank" class="db mg-3">
+                <img src="images/20200316155423264.jpg" alt="" width="800" class="db">
+              </a>
+            </li>
+            <li class="wd-33p fl">
+              <a href="" target="_blank" class="db mg-3">
+                <img src="images/20200114143922679.png" alt="" width="800" class="db">
+              </a>
+            </li>
+            <li class="wd-33p fl">
+              <a href="" target="_blank" class="db mg-3">
+                <img src="images/20180912102355347.jpg" alt="" width="800" class="db">
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 底部 -->
+  <div class="footer">
+    <div class="tag">
+      <ul class="clearfix" >
+        <li class="cl-4 lh-25 pd-0500 wd-25p fl">
+          <img src="images/zheng.png" width="50" height="50" class="fl mr-10 defaultlazy" alt="">
+          <div class="fl" style="margin-top: -7px;">
+            <p class="fs-24 ">全场正品</p>
+            <p style="width: 130px; height: 25px;">出版社直采·博库正品</p>
+          </div>
+        </li>
+        <li class="cl-4 lh-25 pd-0500 wd-25p fl">
+          <img src="images/sheng.png" width="50" height="50" class="fl mr-10 defaultlazy" alt="">
+          <div class="fl" style="margin-top: -7px;">
+            <p class="fs-24 ">全场满59包邮</p>
+            <p style="width: 130px; height: 25px;">惊喜不断·让利多多</p>
+          </div>
+        </li>
+        <li class="cl-4 lh-25 pd-0500 wd-25p fl">
+          <img src="images/huo.png" width="50" height="50" class="fl mr-10 defaultlazy" alt="">
+          <div class="fl" style="margin-top: -7px;">
+            <p class="fs-24 ">门店自取</p>
+            <p style="width: 130px; height: 25px;">就近取货·方式灵活</p>
+          </div>
+        </li>
+        <li class="cl-4 lh-25 pd-0500 wd-25p fl">
+          <img src="images/you.png" width="50" height="50" class="fl mr-10 defaultlazy" alt="">
+          <div class="fl" style="margin-top: -7px;">
+            <p class="fs-24 ">售后无忧</p>
+            <p style="width: 130px; height: 25px;">服务体验·更加精彩</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="wd-1200 ma pd-2000 clearfix" style="border-bottom: 1px solid #b3afaf;">
+      <ul class="links-box fl clearfix">
+        <li class="lh-30 wd-20p fl" style="width: 169px;">
+          <span class="db fs-16 lh-40 ">新手指南</span>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">新用户注册</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">购物流程</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">积分制度</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">注册开店</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">激励制度</a>
+          </div>
+        </li>
+        <li class="lh-30 wd-20p fl" style="width: 169px;">
+          <span class="db fs-16 lh-40 ">支付与配送</span>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">IC卡充值说明</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">验货与签收</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">配送范围</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">自行取货</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">支付方式</a>
+          </div>
+        </li>
+        <li class="lh-30 wd-20p fl" style="width: 169px;">
+          <span class="db fs-16 lh-40 ">售后服务</span>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">发票制度</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">退换货流程</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">7天无理由退换货</a>
+          </div>
+        </li>
+        <li class="lh-30 wd-20p fl" style="width: 169px;">
+          <span class="db fs-16 lh-40 ">个人中心</span>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">店铺设置</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">团队管理</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">收入管理</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">我的订单</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">我的优惠券</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">我的等级</a>
+          </div>
+        </li>
+        <li class="lh-30 wd-20p fl" style="width: 169px;">
+          <span class="db fs-16 lh-40 ">了解博库</span>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">关于博库</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">联系我们</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">博库网隐私政策</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">博库用户注册协议</a>
+          </div>
+          <div>
+            <a href="" class="hover cl-6" target="_blank">博库网分销商注册协议</a>
+          </div>
+        </li>
+      </ul>
+      <div class="code-box fr">
+        <ul class="clearfix">
+          <li class="cl-6 lh-30 ta-ct wd-50p fl" style="width: 159px;">
+            <p class="fs-16 lh-40 ">手机博库</p>
+            <img src="images/app.jpg" width="105" height="105" class="db bd-1-d ma visible" alt="">
+            <p class="lh-30">下载手机客户端</p>
+          </li>
+          <li class="cl-6 lh-30 ta-ct wd-50p fl" style="width: 159px;">
+            <p class="fs-16 lh-40 ">关注微信</p>
+            <img src="images/wx.jpg" width="105" height="105" class="db bd-1-d ma visible" alt="">
+            <p class="lh-30">关注官方微信</p>
+          </li>
+        </ul>
+        <div class="cl-6 lh-25 mt-15" style="position: relative;">
+          <p class="fs-16 fw-bd" style="height: 25px;margin-top: 110px;padding-left: 20px; position: absolute;">服务热线&nbsp;0571-26306883</p>
+          <p style="height: 25px;position: absolute;margin-top: 140px;padding-left: 20px;">服务时间&nbsp;工作日9:00-21:00</p>
+        </div>
+      </div>
+    </div>
+    <!-- copyright -->
+    <div class="copyright">
+      <div class="wd-605 ma cl-9 ta-ct" style="width: 700px;">
+        <div class="fl lh-50">
+          <img src="images/jingcha.png" height="36" class="va-md pd-0005 defaultlazy" alt="">
+          <a href="" target="_blank">
+            <img src="images/huizhang.png" height="36" class="va-md pd-0005 defaultlazy" alt="">
+          </a>
+        </div>
+        <div class="fl pd-0010" style="height: 60px;">
+          <p style="height: 20.67px;color: #999;">
+            ©Copyright 2005-2020 <a href="" class="copyRightA" target="_blank">网站备案号：浙B2-20110278-1</a>
+          </p>
+          <p style="height: 20.67px;color: #999;">
+            <a href="" class="copyRightA" target="_blank">增值电信业务经营许可证:浙B2-2011021</a>
+            bookuu.com 版权所有
+          </p>
+        </div>
+        <div class="fl lh-50">
+          <a href="" target="_blank"><img src="images/knetSealLogo.png" height="30" class="va-md pd-0005 defaultlazy" alt=""></a>
+          <a href="" target="_blank"><img src="images/cert.png" height="30" class="va-md pd-0005 defaultlazy" alt=""></a>
+        </div>
+        <div class="cb"></div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

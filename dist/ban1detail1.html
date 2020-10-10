@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/index1.css">
+  <link rel="stylesheet" href="css/index2.css">
+  <link rel="stylesheet" href="css/ban1detail1.css">
+  <link rel="stylesheet" href="css/component.css">
+  <title>商品详情页</title>
+  <script src="js/jquery-1.10.1.min.js"></script>
+  <script src="js/jquery.cookie.js"></script>
+  <script>
+    $(function(){
+      var id = valueByname(location.search,"id");
+      $.ajax({
+        type:"get",
+        url:"data/goods.json",
+        success:function(arr){
+            var goodsMsg = arr.find(item => item.id==id);
+            var node = $(` 
+            <div class="clearfix pt-20">
+            <div class="fl wd-430 mr-20" id="left">
+              <!-- 商品展示 大图-->
+              <div class="flexslider bd-1-f5 ht-430" id="slider">
+                <div id="small">
+                  <img src="${goodsMsg.imgUrl}" alt="">
+                  <div id="mark"></div>
+                </div>
+                <div id="big">
+                  <img src="${goodsMsg.imgUrl}" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="fl wd-520" id="right">
+              <p class="fs-18 cl-3 lh-40 to-hd fw-bd mb-10">
+                <span class="cl-rd-l" id="www_goods_tags"></span>
+                <span id="www_goods_name">${goodsMsg.title}</span>
+              </p>
+              <span id="www_goods_upper_title"></span>
+              <div class="cl-9 mt-10 lh-30 mb-10">
+                作者: <a href="" class="cl-bl-l mr-50" target="_blank">${goodsMsg.author}</a>
+                出版社: <a href="" class="cl-bl-l" target="_blank">${goodsMsg.publisher}</a>
+              </div>
+              <!-- 定位 -->
+              <input type="hidden" id="www_goods_rushbuy_info">
+              <div class="bc-e5 pd-15">
+                <table width="100%" class="lh-30">
+                  <tbody>
+                    <tr>
+                      <td width="70" class="cl-9">定 价</td>
+                      <td class="cl-3">
+                        <del id="www_goods_market_price">${goodsMsg.del}</del>
+                        <span class="cl-9 pd-0020" id="www_goods_commission_key"></span>
+                        <span id="www_goods_commission_val"></span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="70" class="cl-9 lh-40">售 价</td>
+                      <td>
+                        <label for="" class="cl-rd">
+                          ¥ <span style="font-size: 28px;" id="www_goods_price">${goodsMsg.price}</span>
+                        </label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pd-0015">
+                <table width="100%" class="lh-30 mt-10">
+                  <tbody>
+                    <tr id="www_goods_activity_info"></tr>
+                    <tr>
+                      <td width="70" class="cl-9">销量</td>
+                      <td class="cl-3">${goodsMsg.sales}件</td>
+                    </tr>
+                    <tr>
+                      <td class="cl-3 clearfix">
+                        <span id="www_goods_stores" class="cl-9 fl goods-store" goods-store="4774">库存：${goodsMsg.inventory}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="mt-20 ta-ct mouseenter-box">
+                <label for="" class="fs-18 cl-f bd-1-bl-d bc-bl pd-1030 cp mr-20 fl addcart" style="min-width: 120px;">立即购买</label>
+                <label for="" class="fs-18 cl-f bd-1-bl-d bc-bl pd-1030 cp mr-20 fl addcart" id="${goodsMsg.id}">
+                  <img src="images/shopping.png"  width="18" height="18" alt="" style="vertical-align: middle;">
+                  加入购物车
+                </label>
+                <div class="cb"></div>
+              </div>
+              <!-- 加入购物车 -->
+              <!-- 服务 -->
+              <table width="100%" class="cl-6 lh-60">
+                <tbody>
+                  <tr>
+                    <td width="70" class="cl-9">服务</td>
+                    <td>
+                      <label for="" class="mr-30">
+                        <img src="images/Pigeon.png" width="14" height="14" alt="">
+                        <span>正品保证</span>
+                      </label>
+                      <label for="" class="mr-30">
+                        <img src="images/Pigeon.png" width="14" height="14" alt="">
+                        <span>七天无理由退换货</span>
+                      </label>
+                      <label for="" id="www_goods_integral">
+                        <img src="images/Pigeon.png" width="14" height="14" alt="">
+                        <span> 赠送64积分</span>
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>`);
+         $("#goods").html(node);
+        },error:function(msg){
+            console.log(msg);
+        }
+            })
+
+
+      $("#goods").on("mouseenter","#small",function(){
+        $("#mark,#big").show();
+      }).on("mouseleave","#small",function(){
+        $("#mark,#big").hide();
+      }).on("mousemove","#small",function(ev){
+        var l = ev.clientX - $(this).offset().left - 100;
+        var t = ev.clientY - $(this).offset().top - 100;
+        //限制出界
+        l = Math.max(0, l);
+        l = Math.min(228, l);
+        t = Math.max(0, t);
+        t = Math.min(228, t);
+
+        $("#mark").css({
+          left: l,
+          top: t
+        })
+        $("#big img").css({
+          left: -2 * l,
+          top: -2 * t
+        })
+      })
+
+      function valueByname(search,name){
+            var start = search.indexOf(name + "=");
+            if (start == -1) {
+                return null;
+            }else{
+                var end = search.indexOf("&",start);
+                if (end == -1) {
+                    end = search.length;
+                }
+                var str = search.substring(start,end);
+                var arr = str.split("=");
+                return arr[1];
+            }
+        }
+
+
+        // 给加入购物车按钮添加点击操作
+        $("#goods").on("click",".addcart",function(){
+          // 获取当前点击加入购物车按钮的商品id
+          // cookie本地存储，存商品id和商品数量
+          // [{id:1,num1}]转成json格式字符串
+          var id = this.id;
+          var first = $.cookie("goods") == null ? true : false;
+
+          if(first){
+            var cookieArr = [{id:id,num:1}];
+            $.cookie("goods",JSON.stringify(cookieArr),{
+              expires:7
+            })
+          }else{
+            var same = false;
+            var cookieStr = $.cookie("goods");
+            var cookieArr = JSON.parse(cookieStr);
+            for(var i = 0;i < cookieArr.length;i++){
+              if(cookieArr[i].id == id){
+                // 之前添加过
+                cookieArr[i].num++;
+                same = true;
+                break;
+              } 
+            }
+
+            if(!same){
+              // 之前没有添加过
+              var obj = {id:id,num:1};
+              cookieArr.push(obj);
+            }
+
+            // 最后，存回cookie中
+            $.cookie("goods",JSON.stringify(cookieArr),{
+              expires:7
+            })
+          }
+
+          return false;
+        })
+    })
+  </script>
+</head>
+<body>
+  <!-- 头部 -->
+  <div class="header bc-f">
+    <div class="bc-f5 ht-30 lh-30">
+      <div class="wd-1200 ma fs-12 cl-6">
+        <p class="fl">
+          <a href="http://localhost/dist/login.html" class="hover cl-6" target="_blank" title="登录">登录</a>
+          <span class="pd-0005 cl-c">|</span>
+          <a href="http://localhost/dist/register.html" class="mr-30 hover cl-6" target="_blank" title="免费注册">免费注册</a>
+          <a href="" class="hover cl-6" target="_blank" title="下载博库APP">
+            <span class="icon-phone-line cl-bl-l fs-16 tp-3 mr-2 pr"></span><img src="images/phone.png" alt="" id="phone"></span>
+            下载博库APP
+          </a>
+        </p>
+        <p class="fr">
+          <a href="" class="hover fr cl-6" title="联系客服">联系客服</a>
+          <span class="pd-0015 cl-c fr">|</span>
+          <a href="" class="hover fr cl-6" target="_blank" title="店铺管理">店铺管理</a>
+          <span class="pd-0015 cl-c fr">|</span>
+          <a href="" class="hover fr cl-6" target="_blank" title="收藏夹">收藏夹</a>
+          <span class="pd-0015 cl-c fr">|</span>
+        
+        <div class="fr mouseenter-box mouseenter mouseleave pr" id="pr">
+          <label for="" class="cp">
+            我的博库
+            <img src="images/darrow.png" alt="" id="darrow">
+          </label>
+          <div class="acount" id="acount">
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的博库</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的订单</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的优惠券</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的收藏</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">我的收入</a>
+            <a href="" class="hover cl-6 to-hd" target="_blank">官方消息</a>
+          </div>
+        </div>
+        <div class="cb"></div>
+      </p>
+      </div>
+    </div>
+    <!-- logo+搜索+购物车 -->
+    <div class="wd-1200 ma">
+      <div class="search-container" id="search-container">
+        <div class="logo-container">
+          <a href="index.html" class="db logo-box fl">
+            <img src="images/logo.png" alt="logo"  draggable="false" width="220" id="logo">
+          </a>
+          <!-- 搜索 -->
+          <div class="f1">
+            <div class="search-box">
+              <div class="fl wd-480 pr zi-1 associate-container">
+                <input type="text" id="gudingsearch" placeholder="快乐读书吧" class="bd-n searchkey">
+              </div>
+              <p class="fr icon-search-line cl-f fs-27 tosearch"><img src="images/magnifying.png" alt="" width="25" height="25" style="vertical-align: middle;"></p>
+              <div class="cb"></div>
+            </div>
+            <img src="" alt="">
+            <p class="fs-12 lh-25  tip">
+              <a href="" target="_blank" class="cl-rd-l" title="红星照耀中国" style="color: red;">红星照耀中国</a>
+              <span class="cl-9 pd-0005">|</span>
+              <a href="" target="_blank" class="cl-9" title="三体">三体</a>
+              <span class="cl-9 pd-0005">|</span>
+              <a href="" target="_blank" class="cl-9" title="新课标">新课标</a>
+              <span class="cl-9 pd-0005">|</span>
+              <a href="" target="_blank" class="cl-9" title="冬之旅">冬之旅</a>
+              <span class="cl-9 pd-0005">|</span>
+              <a href="" target="_blank" class="cl-9" title="水浒传">水浒传</a>
+            </p>
+            <div class="cb"></div>
+          </div>
+          <div class="fr ta-rt mt-8 cart">
+            <a href="cart.html" target="_blank" class="fs-16 bd-1-d br-4 pd-0610 cart-box">
+              <span class="icon-cart-block mr-10 cl-a9 pr tp-3 fs-18">
+                <img src="images/shopping.png" alt="" id="shopping">
+              </span>
+              <span class="mr-5">购物车</span>
+            </a>
+          </div>
+          <div class="cb"></div>
+        </div>
+      </div>
+      <!-- 分类 -->
+      <div class="nav-box">
+        <div class="type fl public">
+          <a href="" target="_blank" class="db cl-f title" style="color: #fff;">
+            <span class="icon-type-line cl-f mr-10 pr tp-2"><img src="images/list.png" alt="" id="list"></span>
+            所有商品分类
+          </a>
+        </div>
+        <div class="nav fl">
+          <!-- 固定导航菜单 -->
+          <a target="_blank" class="db pd-0015 fl on-mouse" href=""><span>首页</span></a>
+          <a target="_blank" class="db pd-0015 fl " href=""><span>新品</span></a>
+          <a target="_blank" class="db pd-0015 fl " href=""><span>限时购</span></a>
+          <a target="_blank" class="db pd-0015 fl " href=""><span>排行榜</span></a>
+          <!-- 自定义导航菜单 -->
+          <span class="db pd-0015 fl">|</span>
+          <a href="" target="_blank" class="db pd-0015 fl"><span>图书馆</span></a>
+        </div>
+        <div class="cb"></div>
+      </div>
+    </div>
+  </div>
+  <!-- 中部 -->
+  <div class="section">
+    <div class="wd-1200 ma" id="commodity">
+      <!-- 当前位置 -->
+      <p class="lh-50 cl-3">
+        您的当前位置：<a href="">全部分类</a>
+        > <a href="">图书</a>
+        > <a href="">政治军事</a>
+        > <a href="">政治</a>
+        > <a href="">政治理论</a>
+      </p>
+      <div class="clearfix pt-20" id="goods">
+        <!-- <div class="fl wd-430 mr-20" id="left">
+          商品展示 大图
+          <div class="flexslider bd-1-f5 ht-430" id="slider">
+            <div id="small">
+              <img src="images/20200701A112523-50024.jpg" alt="">
+              <div id="mark"></div>
+            </div>
+            <div id="big">
+              <img src="images/20200701A112523-50024.jpg" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="fl wd-520" id="right">
+          <p class="fs-18 cl-3 lh-40 to-hd fw-bd mb-10">
+            <span class="cl-rd-l" id="www_goods_tags"></span>
+            <span id="www_goods_name">习近平谈治国理政(第3卷)</span>
+          </p>
+          <span id="www_goods_upper_title"></span>
+          <div class="cl-9 mt-10 lh-30 mb-10">
+            作者: <a href="" class="cl-bl-l mr-50" target="_blank">习近平</a>
+            出版社: <a href="" class="cl-bl-l" target="_blank">外文</a>
+          </div>
+          定位
+          <input type="hidden" id="www_goods_rushbuy_info">
+          <div class="bc-e5 pd-15">
+            <table width="100%" class="lh-30">
+              <tbody>
+                <tr>
+                  <td width="70" class="cl-9">定 价</td>
+                  <td class="cl-3">
+                    <del id="www_goods_market_price">¥80.00</del>
+                    <span class="cl-9 pd-0020" id="www_goods_commission_key"></span>
+                    <span id="www_goods_commission_val"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="70" class="cl-9 lh-40">售 价</td>
+                  <td>
+                    <label for="" class="cl-rd">
+                      ¥ <span style="font-size: 28px;" id="www_goods_price">64.00</span>
+                    </label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pd-0015">
+            <table width="100%" class="lh-30 mt-10">
+              <tbody>
+                <tr id="www_goods_activity_info"></tr>
+                <tr>
+                  <td width="70" class="cl-9">销量</td>
+                  <td class="cl-3">479 件</td>
+                </tr>
+                <tr>
+                  <td width="70" class="cl-9">数量</td>
+                  <td class="cl-3 clearfix">
+                    <div class="count-box mt-2 mr-20 fl clearfix">
+                      <div class="count-sub fl cl-c" onclick="MycountSub(this);">-</div>
+                      <input type="tel" value="1" onkeyup="MyinputChange(this);" class="text fl number-box">
+                      <div class="count-add fr" onclick="MycountAdd(this);">+</div>
+                    </div>
+                    <span id="www_goods_stores" class="cl-9 fl goods-store" goods-store="4774">库存：4774</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mt-20 ta-ct mouseenter-box">
+            <label for="" class="fs-18 cl-f bd-1-bl-d bc-bl pd-1030 cp mr-20 fl addcart" style="min-width: 120px;">立即购买</label>
+            <label for="" class="fs-18 cl-f bd-1-bl-d bc-bl pd-1030 cp mr-20 fl addcart" >
+              <img src="images/shopping.png" width="18" height="18" alt="" style="vertical-align: middle;">
+              加入购物车
+            </label>
+            <div class="cb"></div>
+          </div>
+          加入购物车
+          服务
+          <table width="100%" class="cl-6 lh-60">
+            <tbody>
+              <tr>
+                <td width="70" class="cl-9">服务</td>
+                <td>
+                  <label for="" class="mr-30">
+                    <img src="images/Pigeon.png" width="14" height="14" alt="">
+                    <span>正品保证</span>
+                  </label>
+                  <label for="" class="mr-30">
+                    <img src="images/Pigeon.png" width="14" height="14" alt="">
+                    <span>七天无理由退换货</span>
+                  </label>
+                  <label for="" id="www_goods_integral">
+                    <img src="images/Pigeon.png" width="14" height="14" alt="">
+                    <span> 赠送64积分</span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

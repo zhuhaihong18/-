@@ -1,0 +1,127 @@
+// 全局设置
+
+*{
+  margin: 0;
+  padding: 0;
+}
+html{
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  background-color: #fff;
+  word-break: break-all;
+}
+body{
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  font-family: "微软雅黑","黑体","Microsoft YaHei","SimSun", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #212121;
+}
+.header{
+  height: 190px;
+  border-bottom: 2px #3ab5e6 solid;
+  position: relative;
+  z-index: 102;
+}
+.section {
+	min-height: 500px;
+	padding-bottom: 50px;
+	background-color: #fff;
+	position: relative;
+}
+.section.bc-f5 {
+	background-color: #f5f5f5;
+}
+* {
+	padding: 0;
+	margin: 0;
+}
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+	color: #cccccc;
+}
+input:-moz-placeholder, textarea:-moz-placeholder {
+	color:#cccccc;
+}
+input::-moz-placeholder, textarea::-moz-placeholder {
+	color:#cccccc;
+}
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+	color:#cccccc;
+}
+hr{
+	display: block;
+	border: none;
+	width: 100%;
+	border-top: 1px #e8e8e8 solid;
+}
+div[contenteditable=true],input,select,button,textarea {
+	outline: none;
+	border: none;
+	border: 1px #ddd solid;
+	font-family: '微软雅黑';
+}
+input[type='file'],input[type='radio']{
+	width: 0;
+	opacity: 0;
+	height: 0;
+}
+pre {font-family: inherit}
+a {
+	outline: none;
+	text-decoration: none;
+	color: #212121;
+}
+a.hover:hover,a.hover:hover span {
+	color: #2db4ea;
+}
+ul {list-style-type: none;}
+img {
+	border: none;
+	max-width: 100%;
+	padding: 0;
+	margin: 0;
+}
+table,td,thead,tbody,th,tfoot {
+	padding: 0;
+	margin: 0;
+	border-collapse: collapse;
+}
+
+::selection {
+	background: lightblue;
+	color: #fff;
+}
+::-moz-selection {
+	background: lightblue;
+	color: #fff;
+}
+a,.cp {
+	cursor: pointer;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+b {
+	font-weight: bold;
+}
+.select,.input {
+    box-sizing: content-box;
+    height: 36px;
+    padding: 0 8px;
+    line-height: 36px;
+    vertical-align: middle;
+    border: 1px #e8e8e8 solid;
+}
+.select {
+    padding: 8px 8px;
+    height: 20px;
+    line-height: 20px;
+}
